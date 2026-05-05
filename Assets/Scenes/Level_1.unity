@@ -327,7 +327,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5307298681821102110, guid: b6c5ae7a3d3534b2fa8c376bee2521f6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.03
+      value: 3.11
       objectReference: {fileID: 0}
     - target: {fileID: 5307298681821102110, guid: b6c5ae7a3d3534b2fa8c376bee2521f6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -364,6 +364,18 @@ PrefabInstance:
     - target: {fileID: 5307298681821102112, guid: b6c5ae7a3d3534b2fa8c376bee2521f6, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5307298681821102113, guid: b6c5ae7a3d3534b2fa8c376bee2521f6, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5307298681821102113, guid: b6c5ae7a3d3534b2fa8c376bee2521f6, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5307298681821102113, guid: b6c5ae7a3d3534b2fa8c376bee2521f6, type: 3}
+      propertyPath: m_Color.r
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6c5ae7a3d3534b2fa8c376bee2521f6, type: 3}
