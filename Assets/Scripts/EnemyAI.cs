@@ -36,6 +36,9 @@ public class EnemyAI : MonoBehaviour
     private int     waypointIndex;
     private float   repathTimer;
     private bool    pathPending = false;
+    
+    // Store the original scale set in the Inspector so Flip never overwrites it
+    private Vector3 originalScale;
 
     // ─────────────────────────────────────────────────────────────────────────
     void Start()
@@ -44,6 +47,9 @@ public class EnemyAI : MonoBehaviour
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         rb.interpolation          = RigidbodyInterpolation2D.Interpolate;
         rb.freezeRotation         = true;
+        
+        // Remember whatever scale was set in the Inspector (e.g. 2,2,2)
+        originalScale = transform.localScale;
 
         if (player == null)
         {
@@ -149,10 +155,17 @@ public class EnemyAI : MonoBehaviour
     void OnRespawnComplete() => playerDead = false;
 
     // ─────────────────────────────────────────────────────────────────────────
+    // void Flip(float horizontalDir)
+    // {
+    //     if      (horizontalDir >  0.1f) transform.localScale = new Vector3( 1, 1, 1);
+    //     else if (horizontalDir < -0.1f) transform.localScale = new Vector3(-1, 1, 1);
+    // }
+    
     void Flip(float horizontalDir)
     {
-        if      (horizontalDir >  0.1f) transform.localScale = new Vector3( 1, 1, 1);
-        else if (horizontalDir < -0.1f) transform.localScale = new Vector3(-1, 1, 1);
+        // Use originalScale so a (2,2,2) enemy stays (2,2,2) — only X flips
+        if      (horizontalDir >  0.1f) transform.localScale = new Vector3( Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
+        else if (horizontalDir < -0.1f) transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
     }
 
     // ─────────────────────────────────────────────────────────────────────────
