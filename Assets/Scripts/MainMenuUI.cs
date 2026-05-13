@@ -50,7 +50,7 @@ public class MainMenuUI : MonoBehaviour
         ShowPanel(mainPanel);
     }
 
-    void OnPlay() => SceneManager.LoadScene("GameScene");
+    void OnPlay() => SceneManager.LoadScene("Level_1");
 
     void OnLeaderboard()
     {
