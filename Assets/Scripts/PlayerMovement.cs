@@ -4,6 +4,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
+    public Animator animator;
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
@@ -16,17 +17,30 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // 1. Get Input (Horizontal = A/D or Left/Right, Vertical = W/S or Up/Down)
-        moveInput.x = Input.GetAxisRaw("Horizontal");
-        moveInput.y = Input.GetAxisRaw("Vertical");
+        // 1. Get raw values
+    float x = Input.GetAxisRaw("Horizontal");
+    float y = Input.GetAxisRaw("Vertical");
 
-        // 2. Normalize diagonal movement so the player doesn't move faster diagonally
+    moveInput = new Vector2(x, y);
+
+    // 2. Set the Animator value BEFORE normalizing 
+    // We use magnitude so it's always a positive number (0 to 1)
+    if (animator != null)
+    {
+        animator.SetFloat("speed", moveInput.magnitude);
+    }
+
+    // 3. Now normalize for movement
+    if (moveInput.sqrMagnitude > 0.01f)
+    {
         moveInput.Normalize();
+    }
+
     }
 
     void FixedUpdate()
     {
         // 3. Apply velocity to the Rigidbody
-        rb.velocity = moveInput * moveSpeed;
+        rb.MovePosition(rb.position + moveInput * moveSpeed * Time.fixedDeltaTime);
     }
 }
