@@ -8,12 +8,11 @@ public class MainMenuUI : MonoBehaviour
     [Header("Panels")]
     public GameObject mainPanel;
     public GameObject settingsPanel;
-    public GameObject leaderboardPanel;
+    public GameObject quitConfirmPanel;
 
-    [Header("Main")]
+    [Header("Main Buttons")]
     public Button playBtn;
     public Button settingsBtn;
-    public Button leaderboardBtn;
     public Button quitBtn;
     public TextMeshProUGUI bestScoreTxt;
 
@@ -22,53 +21,40 @@ public class MainMenuUI : MonoBehaviour
     public Slider sfxSlider;
     public Button settingsBackBtn;
 
-    [Header("Leaderboard")]
-    public TextMeshProUGUI leaderboardTxt;
-    public Button leaderboardBackBtn;
-
-    const string BEST_SCORE_KEY = "BestScore";
-    const string MUSIC_KEY = "MusicVol";
-    const string SFX_KEY = "SFXVol";
+    [Header("Quit Confirm")]
+    public Button quitYesBtn;
+    public Button quitNoBtn;
 
     void Start()
     {
         playBtn.onClick.AddListener(OnPlay);
         settingsBtn.onClick.AddListener(() => ShowPanel(settingsPanel));
-        leaderboardBtn.onClick.AddListener(OnLeaderboard);
-        quitBtn.onClick.AddListener(Application.Quit);
+        quitBtn.onClick.AddListener(() => ShowPanel(quitConfirmPanel));
+
         settingsBackBtn.onClick.AddListener(() => ShowPanel(mainPanel));
-        leaderboardBackBtn.onClick.AddListener(() => ShowPanel(mainPanel));
 
-        musicSlider.value = PlayerPrefs.GetFloat(MUSIC_KEY, 1f);
-        sfxSlider.value   = PlayerPrefs.GetFloat(SFX_KEY, 1f);
-        musicSlider.onValueChanged.AddListener(v => PlayerPrefs.SetFloat(MUSIC_KEY, v));
-        sfxSlider.onValueChanged.AddListener(v  => PlayerPrefs.SetFloat(SFX_KEY, v));
+        quitYesBtn.onClick.AddListener(Application.Quit);
+        quitNoBtn.onClick.AddListener(() => ShowPanel(mainPanel));
 
-        int best = PlayerPrefs.GetInt(BEST_SCORE_KEY, 0);
-        bestScoreTxt.text = $"Best result: {best:N0} points";
+        // Load saved volume settings
+        musicSlider.value = PlayerPrefs.GetFloat("MusicVol", 1f);
+        sfxSlider.value = PlayerPrefs.GetFloat("SFXVol", 1f);
+        musicSlider.onValueChanged.AddListener(v => PlayerPrefs.SetFloat("MusicVol", v));
+        sfxSlider.onValueChanged.AddListener(v => PlayerPrefs.SetFloat("SFXVol", v));
+
+        // Display best score
+        int best = PlayerPrefs.GetInt("BestScore", 0);
+        bestScoreTxt.text = best > 0 ? $"Best Score: {best:N0}" : "Best Score: ---";
 
         ShowPanel(mainPanel);
     }
 
-    void OnPlay() => SceneManager.LoadScene("GameScene");
-
-    void OnLeaderboard()
-    {
-        // Показываем топ-5 (храним в PlayerPrefs как JSON или отдельными ключами)
-        var sb = new System.Text.StringBuilder();
-        for (int i = 1; i <= 5; i++)
-        {
-            int s = PlayerPrefs.GetInt($"Score_{i}", 0);
-            sb.AppendLine(s > 0 ? $"{i}. {s:N0}" : $"{i}. ---");
-        }
-        leaderboardTxt.text = sb.ToString();
-        ShowPanel(leaderboardPanel);
-    }
+    void OnPlay() => SceneManager.LoadScene("Level_1");
 
     void ShowPanel(GameObject target)
     {
         mainPanel.SetActive(target == mainPanel);
         settingsPanel.SetActive(target == settingsPanel);
-        leaderboardPanel.SetActive(target == leaderboardPanel);
+        quitConfirmPanel.SetActive(target == quitConfirmPanel);
     }
 }
