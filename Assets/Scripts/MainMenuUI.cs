@@ -30,26 +30,43 @@ public class MainMenuUI : MonoBehaviour
         playBtn.onClick.AddListener(OnPlay);
         settingsBtn.onClick.AddListener(() => ShowPanel(settingsPanel));
         quitBtn.onClick.AddListener(() => ShowPanel(quitConfirmPanel));
-
         settingsBackBtn.onClick.AddListener(() => ShowPanel(mainPanel));
-
-        quitYesBtn.onClick.AddListener(Application.Quit);
+        quitYesBtn.onClick.AddListener(OnQuitConfirmed);
         quitNoBtn.onClick.AddListener(() => ShowPanel(mainPanel));
 
-        // Load saved volume settings
-        musicSlider.value = PlayerPrefs.GetFloat("MusicVol", 1f);
-        sfxSlider.value = PlayerPrefs.GetFloat("SFXVol", 1f);
-        musicSlider.onValueChanged.AddListener(v => PlayerPrefs.SetFloat("MusicVol", v));
-        sfxSlider.onValueChanged.AddListener(v => PlayerPrefs.SetFloat("SFXVol", v));
+        // Load saved volume and hook sliders to AudioManager
+        float savedMusic = PlayerPrefs.GetFloat("MusicVol", 1f);
+        float savedSFX = PlayerPrefs.GetFloat("SFXVol", 1f);
+        musicSlider.value = savedMusic;
+        sfxSlider.value = savedSFX;
+        musicSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetMusicVolume(v));
+        sfxSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetSFXVolume(v));
 
         // Display best score
         int best = PlayerPrefs.GetInt("BestScore", 0);
         bestScoreTxt.text = best > 0 ? $"Best Score: {best:N0}" : "Best Score: ---";
 
+        // Start menu music
+        AudioManager.Instance?.PlayMenuMusic();
+
         ShowPanel(mainPanel);
     }
 
-    void OnPlay() => SceneManager.LoadScene("Level_1");
+    void OnPlay()
+    {
+        AudioManager.Instance?.PlayLevelMusic();
+        SceneManager.LoadScene("Level_1");
+    }
+
+    void OnQuitConfirmed()
+    {
+        // Quit the application entirely
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
 
     void ShowPanel(GameObject target)
     {
