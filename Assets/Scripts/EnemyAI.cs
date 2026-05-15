@@ -1,43 +1,32 @@
 using UnityEngine;
 using Pathfinding;   // A* Pathfinding Project namespace
 
-/// <summary>
-/// EnemyAI — Hotline Miami-style enemy with full A* pathfinding.
-///
-/// Requires: A* Pathfinding Project (free) imported into the project.
-/// https://arongranberg.com/astar
-///
-/// The enemy recalculates a path to the player every repathRate seconds,
-/// then follows the waypoints one by one using MovePosition so walls
-/// are respected by physics as well.
-/// </summary>
 public class EnemyAI : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed        = 3f;
-    public float stoppingDistance = 1.2f;   // melee / kill range
+    public float moveSpeed = 3f;
+    public float stoppingDistance = 1.2f;   // melee / damage range
 
     [Header("Pathfinding")]
-    [Tooltip("How often (seconds) to recalculate the path to the player.")]
-    public float repathRate      = 0.5f;
-    [Tooltip("How close the enemy must get to a waypoint before moving to the next.")]
+    public float repathRate = 0.5f;
     public float waypointReached = 0.4f;
+
+    [Header("Combat")]
+    public float damageValue = 25f;
+    public float attackRate = 1.0f;
+    private float nextAttackTime;
 
     [Header("References")]
     public Transform player;
 
     // ── private ──────────────────────────────────────────────────────────────
-    private Rigidbody2D   rb;
+    private Rigidbody2D rb;
     private PlayerRespawn playerRespawn;
-    private bool          playerDead = false;
 
-    // A* path data
-    private Path    currentPath;
-    private int     waypointIndex;
-    private float   repathTimer;
-    private bool    pathPending = false;
-    
-    // Store the original scale set in the Inspector so Flip never overwrites it
+    private Path currentPath;
+    private int waypointIndex;
+    private float repathTimer;
+    private bool pathPending = false;
     private Vector3 originalScale;
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -45,10 +34,9 @@ public class EnemyAI : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-        rb.interpolation          = RigidbodyInterpolation2D.Interpolate;
-        rb.freezeRotation         = true;
-        
-        // Remember whatever scale was set in the Inspector (e.g. 2,2,2)
+        rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+        rb.freezeRotation = true;
+
         originalScale = transform.localScale;
 
         if (player == null)
@@ -56,7 +44,7 @@ public class EnemyAI : MonoBehaviour
             GameObject obj = GameObject.FindGameObjectWithTag("Player");
             if (obj != null)
             {
-                player        = obj.transform;
+                player = obj.transform;
                 playerRespawn = obj.GetComponent<PlayerRespawn>();
             }
         }
@@ -65,20 +53,20 @@ public class EnemyAI : MonoBehaviour
             playerRespawn = player.GetComponent<PlayerRespawn>();
         }
 
-        // Request the first path immediately
         RequestPath();
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // ── MERGED FIXED UPDATE ──────────────────────────────────────────────────
     void FixedUpdate()
     {
-        if (player == null || playerDead)
+        // 1. Safety Check: If player is dead or missing, stop and do nothing.
+        if (player == null || (playerRespawn != null && playerRespawn.currentHealth <= 0))
         {
             rb.velocity = Vector2.zero;
             return;
         }
 
-        // Recalculate path periodically so the enemy reacts to player movement
+        // 2. A* Timer: Recalculate path periodically
         repathTimer += Time.fixedDeltaTime;
         if (repathTimer >= repathRate)
         {
@@ -88,18 +76,24 @@ public class EnemyAI : MonoBehaviour
 
         float distToPlayer = Vector2.Distance(transform.position, player.position);
 
+        // 3. Combat Logic: If close enough, stop and attack
         if (distToPlayer <= stoppingDistance)
         {
             rb.velocity = Vector2.zero;
-            KillPlayer();
+
+            if (Time.time >= nextAttackTime)
+            {
+                playerRespawn.TakeDamage(damageValue);
+                nextAttackTime = Time.time + attackRate;
+            }
             return;
         }
 
+        // 4. Movement: If not attacking, follow the path
         FollowPath();
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    /// Ask A* to calculate a path from enemy position to player position.
     void RequestPath()
     {
         if (player == null || pathPending) return;
@@ -108,70 +102,42 @@ public class EnemyAI : MonoBehaviour
         AstarPath.StartPath(path);
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    /// Callback fired by A* when the path is ready.
     void OnPathComplete(Path p)
     {
         pathPending = false;
-
-        if (p.error)
+        if (!p.error)
         {
-            Debug.LogWarning("EnemyAI: path error — " + p.errorLog);
-            return;
+            currentPath = p;
+            waypointIndex = 0;
         }
-
-        currentPath    = p;
-        waypointIndex  = 0;   // start from the beginning of the new path
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    /// Move along the current path waypoint by waypoint.
     void FollowPath()
     {
-        if (currentPath == null) return;
-        if (waypointIndex >= currentPath.vectorPath.Count) return;
+        if (currentPath == null || waypointIndex >= currentPath.vectorPath.Count) return;
 
         Vector2 target = currentPath.vectorPath[waypointIndex];
-        Vector2 dir    = (target - rb.position).normalized;
+        Vector2 dir = (target - (Vector2)transform.position).normalized;
 
         rb.MovePosition(rb.position + dir * moveSpeed * Time.fixedDeltaTime);
         rb.velocity = Vector2.zero;
 
         Flip(dir.x);
 
-        // Advance to next waypoint once close enough
-        if (Vector2.Distance(rb.position, target) <= waypointReached)
+        if (Vector2.Distance(transform.position, target) <= waypointReached)
             waypointIndex++;
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    void KillPlayer()
-    {
-        if (playerRespawn == null) return;
-        playerDead = true;
-        playerRespawn.Die(OnRespawnComplete);
-    }
-
-    void OnRespawnComplete() => playerDead = false;
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // void Flip(float horizontalDir)
-    // {
-    //     if      (horizontalDir >  0.1f) transform.localScale = new Vector3( 1, 1, 1);
-    //     else if (horizontalDir < -0.1f) transform.localScale = new Vector3(-1, 1, 1);
-    // }
-    
     void Flip(float horizontalDir)
     {
-        // Use originalScale so a (2,2,2) enemy stays (2,2,2) — only X flips
-        if      (horizontalDir >  0.1f) transform.localScale = new Vector3( Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
-        else if (horizontalDir < -0.1f) transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
+        if (horizontalDir > 0.1f)
+            transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
+        else if (horizontalDir < -0.1f)
+            transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
     void OnDrawGizmosSelected()
     {
-        // Draw the current path so you can see it in the Scene view
         if (currentPath == null) return;
         Gizmos.color = Color.yellow;
         for (int i = waypointIndex; i < currentPath.vectorPath.Count - 1; i++)
