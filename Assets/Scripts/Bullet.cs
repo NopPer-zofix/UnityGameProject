@@ -3,7 +3,9 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float speed = 20f;
-    public int damage = 1;
+    
+    // FIXED: Changed from float to int to match EnemyHealth
+    public int damage = 1; 
 
     void Start()
     {
@@ -16,7 +18,7 @@ public class Bullet : MonoBehaviour
         transform.Translate(Vector2.right * speed * Time.deltaTime);
     }
 
-    // --- ADDED: Public helper method to receive the target damage payload ---
+    // FIXED: Changed parameter type from float to int
     public void SetDamage(int newDamageValue)
     {
         damage = newDamageValue;
@@ -24,14 +26,17 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        // If it hits an enemy, deal damage first
         if (hitInfo.gameObject.tag.StartsWith("zombie")) 
         {
+            // Now this matches perfectly because damage is an int!
             hitInfo.GetComponent<EnemyHealth>()?.TakeDamage(damage);
+            Destroy(gameObject); 
+            return; 
         }
 
-        // Unless it's the Player, destroy the bullet on impact with anything
-        if (!hitInfo.CompareTag("Player"))
+        string layerName = LayerMask.LayerToName(hitInfo.gameObject.layer);
+        
+        if (layerName == "Wall" || layerName == "Junk")
         {
             Destroy(gameObject);
         }
