@@ -2,14 +2,26 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
+    // Enum to keep track of which weapon is selected
+    public enum WeaponType { Pistol, Shotgun, Rifle }
+
+    [Header("Current Weapon")]
+    public WeaponType currentWeapon = WeaponType.Pistol;
+
     [Header("References")]
     public GameObject bulletPrefab;
     public Transform firePoint;
     public Transform gunTransform;
-    public Animator pistolAnimator; 
 
-    [Header("Audio")]
-    public AudioSource gunAudioSource; // CHANGED: Manually assign this in the inspector
+    [Header("Weapon Animators")]
+    public Animator pistolAnimator;
+    public Animator shotgunAnimator;
+    public Animator rifleAnimator;
+
+    [Header("Weapon Audio Sources")]
+    public AudioSource pistolAudioSource;
+    public AudioSource shotgunAudioSource;
+    public AudioSource rifleAudioSource;
 
     void Update()
     {
@@ -49,19 +61,29 @@ public class PlayerShooting : MonoBehaviour
 
     void Shoot()
     {
-        // 1. Play the Pistol's Animation (Recoil + Flames)
-        if (pistolAnimator != null)
+        // Execute animation and sound based on the active weapon type
+        switch (currentWeapon)
         {
-            pistolAnimator.SetTrigger("Shoot");
+            case WeaponType.Pistol:
+                if (pistolAnimator != null) pistolAnimator.SetTrigger("Shoot");
+                if (pistolAudioSource != null && pistolAudioSource.clip != null) pistolAudioSource.PlayOneShot(pistolAudioSource.clip);
+                break;
+
+            case WeaponType.Shotgun:
+                if (shotgunAnimator != null) shotgunAnimator.SetTrigger("Shoot");
+                if (shotgunAudioSource != null && shotgunAudioSource.clip != null) shotgunAudioSource.PlayOneShot(shotgunAudioSource.clip);
+                break;
+
+            case WeaponType.Rifle:
+                if (rifleAnimator != null) rifleAnimator.SetTrigger("Shoot");
+                if (rifleAudioSource != null && rifleAudioSource.clip != null) rifleAudioSource.PlayOneShot(rifleAudioSource.clip);
+                break;
         }
 
-        // 2. Play the gunshot sound effect instantly using the specific gun audio source
-        if (gunAudioSource != null && gunAudioSource.clip != null)
+        // Create the bullet
+        if (bulletPrefab != null && firePoint != null)
         {
-            gunAudioSource.PlayOneShot(gunAudioSource.clip);
+            Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         }
-
-        // 3. Create the bullet
-        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
     }
 }
