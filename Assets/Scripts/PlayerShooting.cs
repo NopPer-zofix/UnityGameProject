@@ -30,7 +30,6 @@ public class PlayerShooting : MonoBehaviour
             RotateGun();
         }
 
-        // Shooting: Detect Left Click
         if (Input.GetButtonDown("Fire1"))
         {
             Shoot();

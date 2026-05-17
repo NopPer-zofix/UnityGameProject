@@ -75,6 +75,11 @@ public class PlayerRespawn : MonoBehaviour
     // STOP FOOTSTEPS ON DEATH
     AudioSource audio = GetComponent<AudioSource>();
     if (audio != null) audio.Stop();
+    PlayerShooting shootingScript = GetComponent<PlayerShooting>();
+    if (shootingScript != null)
+    {
+        shootingScript.enabled = false; 
+    }
 
     if (spriteRenderer != null) spriteRenderer.enabled = false;
     if (col != null) col.enabled = false;
@@ -82,4 +87,10 @@ public class PlayerRespawn : MonoBehaviour
 
     if (deathScreen != null) deathScreen.SetActive(true);
 }
+
+public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
 }
