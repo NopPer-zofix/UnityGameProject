@@ -159,8 +159,8 @@ GameObject:
   - component: {fileID: 5130071514312623455}
   - component: {fileID: 6227281598627811157}
   - component: {fileID: 2452653863254286629}
-  - component: {fileID: 3416363220170722812}
   - component: {fileID: 4129789776307149547}
+  - component: {fileID: 3416363220170722812}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -359,16 +359,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5e09f28209078f4e87bf360919bf1e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeapon: 0
+  currentWeapon: 1
   bulletPrefab: {fileID: 2802883866437218233, guid: a746b3f5966270d4699058d957aa5340, type: 3}
-  firePoint: {fileID: 5130071515217642178}
   gunTransform: {fileID: 5130071514109579320}
+  pistolModel: {fileID: 5130071514330574618}
+  shotgunModel: {fileID: 8453040701422449359}
+  rifleModel: {fileID: 5484558965384585270}
   pistolAnimator: {fileID: 5130071514330574597}
-  shotgunAnimator: {fileID: 0}
-  rifleAnimator: {fileID: 0}
-  pistolAudioSource: {fileID: 0}
-  shotgunAudioSource: {fileID: 0}
-  rifleAudioSource: {fileID: 0}
+  shotgunAnimator: {fileID: 8088795106687403044}
+  rifleAnimator: {fileID: 6845049660684975434}
+  pistolAudioSource: {fileID: 2452653863254286629}
+  shotgunAudioSource: {fileID: 4129789776307149547}
+  rifleAudioSource: {fileID: 3416363220170722812}
+  pistolFirePoint: {fileID: 5130071515217642178}
+  shotgunFirePoint: {fileID: 5318141646617580010}
+  rifleFirePoint: {fileID: 7372419257318407804}
+  spreadAngle: 15
 --- !u!82 &6227281598627811157
 AudioSource:
   m_ObjectHideFlags: 0
@@ -561,7 +567,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!82 &3416363220170722812
+--- !u!82 &4129789776307149547
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -570,11 +576,11 @@ AudioSource:
   m_GameObject: {fileID: 5130071514312623443}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -4902967893044718605, guid: 6527436821a1a504e863d151e34859a5, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 7e0c321a53b744a4c93fd44a27213a48, type: 3}
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: d723cdd20ff62794eb0dee1062b04236, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.493
-  m_Pitch: 0.3
+  m_Volume: 0.499
+  m_Pitch: 0.5
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -657,7 +663,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!82 &4129789776307149547
+--- !u!82 &3416363220170722812
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -666,11 +672,11 @@ AudioSource:
   m_GameObject: {fileID: 5130071514312623443}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: d723cdd20ff62794eb0dee1062b04236, type: 3}
+  OutputAudioMixerGroup: {fileID: -4902967893044718605, guid: 6527436821a1a504e863d151e34859a5, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 7e0c321a53b744a4c93fd44a27213a48, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.499
-  m_Pitch: 0.5
+  m_Volume: 0.493
+  m_Pitch: 0.3
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -1008,6 +1014,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8379276164317434000}
   - component: {fileID: 1529764144670158307}
+  - component: {fileID: 6845049660684975434}
   m_Layer: 0
   m_Name: Rifle
   m_TagString: Untagged
@@ -1083,6 +1090,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &6845049660684975434
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5484558965384585270}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 517526fa915d3394f88a092e09a01310, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6337342021896600033
 GameObject:
   m_ObjectHideFlags: 0

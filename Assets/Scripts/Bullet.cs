@@ -16,18 +16,24 @@ public class Bullet : MonoBehaviour
         transform.Translate(Vector2.right * speed * Time.deltaTime);
     }
 
-   private void OnTriggerEnter2D(Collider2D hitInfo)
-{
-    // If it hits an enemy, deal damage first
-    if (hitInfo.gameObject.tag.StartsWith("zombie")) 
+    // --- ADDED: Public helper method to receive the target damage payload ---
+    public void SetDamage(int newDamageValue)
     {
-        hitInfo.GetComponent<EnemyHealth>()?.TakeDamage(damage);
+        damage = newDamageValue;
     }
 
-    // Unless it's the Player, destroy the bullet on impact with anything
-    if (!hitInfo.CompareTag("Player"))
+    private void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        Destroy(gameObject);
+        // If it hits an enemy, deal damage first
+        if (hitInfo.gameObject.tag.StartsWith("zombie")) 
+        {
+            hitInfo.GetComponent<EnemyHealth>()?.TakeDamage(damage);
+        }
+
+        // Unless it's the Player, destroy the bullet on impact with anything
+        if (!hitInfo.CompareTag("Player"))
+        {
+            Destroy(gameObject);
+        }
     }
-}
 }

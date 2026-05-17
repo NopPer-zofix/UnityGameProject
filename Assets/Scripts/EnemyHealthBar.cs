@@ -33,14 +33,14 @@ public class EnemyHealthBar : MonoBehaviour
     private Transform      fillTransform;  // the inner fill that we scale
     private SpriteRenderer fillRenderer;   // to tint the fill by health %
 
-    private int   maxHealth;
+    private float   maxHealth;
     private float lastHealthRatio = 1f;
 
     // ─────────────────────────────────────────────────────────────────────────
     void Start()
     {
         enemyHealth = GetComponent<EnemyHealth>();
-        maxHealth   = enemyHealth.health;
+        maxHealth = enemyHealth.health;
 
         if (healthBarPrefab == null)
         {

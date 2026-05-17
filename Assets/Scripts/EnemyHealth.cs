@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int health = 3;
+    public float health = 3;
 
     [Tooltip("The room this enemy belongs to. Drag the WaveRoom trigger here.")]
     public WaveRoom room;
