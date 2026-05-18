@@ -56,17 +56,14 @@ public class EnemyAI : MonoBehaviour
         RequestPath();
     }
 
-    // ── MERGED FIXED UPDATE ──────────────────────────────────────────────────
     void FixedUpdate()
     {
-        // 1. Safety Check: If player is dead or missing, stop and do nothing.
         if (player == null || (playerRespawn != null && playerRespawn.currentHealth <= 0))
         {
             rb.velocity = Vector2.zero;
             return;
         }
 
-        // 2. A* Timer: Recalculate path periodically
         repathTimer += Time.fixedDeltaTime;
         if (repathTimer >= repathRate)
         {
@@ -76,7 +73,6 @@ public class EnemyAI : MonoBehaviour
 
         float distToPlayer = Vector2.Distance(transform.position, player.position);
 
-        // 3. Combat Logic: If close enough, stop and attack
         if (distToPlayer <= stoppingDistance)
         {
             rb.velocity = Vector2.zero;
@@ -89,7 +85,6 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        // 4. Movement: If not attacking, follow the path
         FollowPath();
     }
 

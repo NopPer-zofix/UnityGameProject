@@ -34,11 +34,15 @@ public class PlayerShooting : MonoBehaviour
     [Header("Shotgun Settings")]
     public float spreadAngle = 15f; 
 
-    // --- ADDED: Custom damage values per weapon ---
     [Header("Weapon Damage Profiles")]
     public int pistolDamage = 1;
     public int shotgunDamage = 1;
     public int rifleDamage = 2;
+
+    [Header("Shotgun Pump Mechanic")]
+    public bool isShotgunReady = true; 
+    [Tooltip("Optional sound to play when pressing R to pump the shotgun")]
+    public AudioClip shotgunPumpSound;
 
     private Transform activeFirePoint;
 
@@ -52,6 +56,11 @@ public class PlayerShooting : MonoBehaviour
         if (gunTransform != null)
         {
             RotateGun();
+        }
+
+        if (currentWeapon == WeaponType.Shotgun && Input.GetKeyDown(KeyCode.R))
+        {
+            ReloadShotgun();
         }
 
         if (Input.GetButtonDown("Fire1"))
@@ -105,8 +114,20 @@ public class PlayerShooting : MonoBehaviour
 
     void Shoot()
     {
-        // Get the damage value based on the current weapon selection
+        if (currentWeapon == WeaponType.Shotgun && !isShotgunReady)
+        {
+            Debug.Log("Shotgun needs to be reloaded! Press R.");
+            return; 
+        }
+
         int currentDamage = GetCurrentWeaponDamage();
+
+        // --- FIXED: Rifle calls a sequence routine instead of instant frame calculation ---
+        if (currentWeapon == WeaponType.Rifle)
+        {
+            StartCoroutine(RifleDoubleShotSequence(currentDamage));
+            return; // Exit out early so the code below doesn't run for the rifle
+        }
 
         switch (currentWeapon)
         {
@@ -118,11 +139,8 @@ public class PlayerShooting : MonoBehaviour
             case WeaponType.Shotgun:
                 if (shotgunAnimator != null) shotgunAnimator.SetTrigger("Shoot");
                 if (shotgunAudioSource != null && shotgunAudioSource.clip != null) shotgunAudioSource.PlayOneShot(shotgunAudioSource.clip);
-                break;
-
-            case WeaponType.Rifle:
-                if (rifleAnimator != null) rifleAnimator.SetTrigger("Shoot");
-                if (rifleAudioSource != null && rifleAudioSource.clip != null) rifleAudioSource.PlayOneShot(rifleAudioSource.clip);
+                
+                isShotgunReady = false; 
                 break;
         }
 
@@ -130,26 +148,60 @@ public class PlayerShooting : MonoBehaviour
         {
             if (currentWeapon == WeaponType.Shotgun)
             {
-                // Bullet 1: Center
                 SpawnBullet(activeFirePoint.rotation, currentDamage);
 
-                // Bullet 2: Left
                 Quaternion leftRotation = activeFirePoint.rotation * Quaternion.Euler(0, 0, spreadAngle);
                 SpawnBullet(leftRotation, currentDamage);
 
-                // Bullet 3: Right
                 Quaternion rightRotation = activeFirePoint.rotation * Quaternion.Euler(0, 0, -spreadAngle);
                 SpawnBullet(rightRotation, currentDamage);
             }
             else
             {
-                // Pistol and Rifle single shot
                 SpawnBullet(activeFirePoint.rotation, currentDamage);
             }
         }
     }
 
-    // --- ADDED: Helper method to look up active damage values ---
+    // --- NEW: This runs the two shots one right after another with audio and animation fixed ---
+    System.Collections.IEnumerator RifleDoubleShotSequence(int damageToSet)
+    {
+        if (bulletPrefab == null || activeFirePoint == null) yield break;
+
+        // ======= SHOT 1 =======
+        if (rifleAnimator != null) rifleAnimator.SetTrigger("Shoot");
+        if (rifleAudioSource != null && rifleAudioSource.clip != null) rifleAudioSource.PlayOneShot(rifleAudioSource.clip);
+        SpawnBullet(activeFirePoint.rotation, damageToSet, Vector3.zero);
+
+        // Wait a tiny split second (0.06 seconds) so the audio and animations can reset
+        yield return new WaitForSeconds(0.06f);
+
+        // ======= SHOT 2 =======
+        if (currentWeapon == WeaponType.Rifle && activeFirePoint != null)
+        {
+            if (rifleAnimator != null) rifleAnimator.SetTrigger("Shoot");
+            if (rifleAudioSource != null && rifleAudioSource.clip != null) rifleAudioSource.PlayOneShot(rifleAudioSource.clip);
+            SpawnBullet(activeFirePoint.rotation, damageToSet, Vector3.zero);
+        }
+    }
+
+    void ReloadShotgun()
+    {
+        if (isShotgunReady) 
+        {
+            Debug.Log("Shotgun is already loaded.");
+            return; 
+        }
+
+        isShotgunReady = true;
+        Debug.Log("Shotgun reloaded and ready to fire!");
+
+        if (shotgunAudioSource != null && shotgunPumpSound != null)
+        {
+            shotgunAudioSource.PlayOneShot(shotgunPumpSound);
+        }
+    }
+
     int GetCurrentWeaponDamage()
     {
         switch (currentWeapon)
@@ -161,10 +213,9 @@ public class PlayerShooting : MonoBehaviour
         }
     }
 
-    // --- ADDED: Helper method that handles spawning AND transferring the damage parameter ---
-    void SpawnBullet(Quaternion rotation, int damageToSet)
+    void SpawnBullet(Quaternion rotation, int damageToSet, Vector3 positionOffset = default(Vector3))
     {
-        GameObject bulletInstance = Instantiate(bulletPrefab, activeFirePoint.position, rotation);
+        GameObject bulletInstance = Instantiate(bulletPrefab, activeFirePoint.position + positionOffset, rotation);
         Bullet bulletScript = bulletInstance.GetComponent<Bullet>();
         
         if (bulletScript != null)

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 758aea8aca0a2e4468934515f386382b
+guid: fb697be8d712b0a48bed4c4220e685d5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 0
   alignment: 0
@@ -91,91 +91,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: Zombie_Small_Side_First-Attack-Sheet4_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 11
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 960dbe2205359da419bc5c675c6c2e32
-      internalID: -843140011
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Zombie_Small_Side_First-Attack-Sheet4_1
-      rect:
-        serializedVersion: 2
-        x: 11
-        y: 0
-        width: 11
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5125d82410a46cd43a5f374c8309fb36
-      internalID: 1717308143
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Zombie_Small_Side_First-Attack-Sheet4_2
-      rect:
-        serializedVersion: 2
-        x: 22
-        y: 0
-        width: 11
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 01c8022c899ec964bb38d6e69a520f13
-      internalID: -127243810
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Zombie_Small_Side_First-Attack-Sheet4_3
-      rect:
-        serializedVersion: 2
-        x: 33
-        y: 0
-        width: 11
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 805b4cbf95a0dc743a8df2424b3d51f7
-      internalID: 1541133426
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -186,11 +102,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      Zombie_Small_Side_First-Attack-Sheet4_0: -843140011
-      Zombie_Small_Side_First-Attack-Sheet4_1: 1717308143
-      Zombie_Small_Side_First-Attack-Sheet4_2: -127243810
-      Zombie_Small_Side_First-Attack-Sheet4_3: 1541133426
+    nameFileIdTable: {}
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
