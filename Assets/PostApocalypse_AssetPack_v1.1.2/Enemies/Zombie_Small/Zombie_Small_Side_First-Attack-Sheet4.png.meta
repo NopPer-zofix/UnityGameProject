@@ -107,8 +107,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 960dbe2205359da419bc5c675c6c2e32
-      internalID: -843140011
+      spriteID: 7ab86be1b47744e8da5bb6f9aa74be6e
+      internalID: -884025197
       vertices: []
       indices: 
       edges: []
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5125d82410a46cd43a5f374c8309fb36
-      internalID: 1717308143
+      spriteID: e4e6bf4982ce9420898e0b6ac83e22f6
+      internalID: 2027661770
       vertices: []
       indices: 
       edges: []
@@ -149,8 +149,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 01c8022c899ec964bb38d6e69a520f13
-      internalID: -127243810
+      spriteID: 561a615527f87414398c9aef0d5a5e93
+      internalID: 2125451908
       vertices: []
       indices: 
       edges: []
@@ -170,8 +170,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 805b4cbf95a0dc743a8df2424b3d51f7
-      internalID: 1541133426
+      spriteID: 68d719f4642e7451b93f00f613cf4a05
+      internalID: -47476378
       vertices: []
       indices: 
       edges: []
@@ -187,10 +187,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Zombie_Small_Side_First-Attack-Sheet4_0: -843140011
-      Zombie_Small_Side_First-Attack-Sheet4_1: 1717308143
-      Zombie_Small_Side_First-Attack-Sheet4_2: -127243810
-      Zombie_Small_Side_First-Attack-Sheet4_3: 1541133426
+      Zombie_Small_Side_First-Attack-Sheet4_0: -884025197
+      Zombie_Small_Side_First-Attack-Sheet4_1: 2027661770
+      Zombie_Small_Side_First-Attack-Sheet4_2: 2125451908
+      Zombie_Small_Side_First-Attack-Sheet4_3: -47476378
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
