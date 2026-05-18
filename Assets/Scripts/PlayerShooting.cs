@@ -91,26 +91,29 @@ public class PlayerShooting : MonoBehaviour
     }
 
     public void EquipWeapon(WeaponType newWeapon)
+{
+    currentWeapon = newWeapon;
+
+    if (pistolModel != null) pistolModel.SetActive(newWeapon == WeaponType.Pistol);
+    if (shotgunModel != null) shotgunModel.SetActive(newWeapon == WeaponType.Shotgun);
+    if (rifleModel != null) rifleModel.SetActive(newWeapon == WeaponType.Rifle);
+
+    switch (newWeapon)
     {
-        currentWeapon = newWeapon;
-
-        if (pistolModel != null) pistolModel.SetActive(newWeapon == WeaponType.Pistol);
-        if (shotgunModel != null) shotgunModel.SetActive(newWeapon == WeaponType.Shotgun);
-        if (rifleModel != null) rifleModel.SetActive(newWeapon == WeaponType.Rifle);
-
-        switch (newWeapon)
-        {
-            case WeaponType.Pistol:
-                activeFirePoint = pistolFirePoint;
-                break;
-            case WeaponType.Shotgun:
-                activeFirePoint = shotgunFirePoint;
-                break;
-            case WeaponType.Rifle:
-                activeFirePoint = rifleFirePoint;
-                break;
-        }
+        case WeaponType.Pistol:
+            activeFirePoint = pistolFirePoint;
+            break;
+        case WeaponType.Shotgun:
+            activeFirePoint = shotgunFirePoint;
+            isShotgunReady = true; // Auto-load it when picked up!
+            break;
+        case WeaponType.Rifle:
+            activeFirePoint = rifleFirePoint;
+            break;
     }
+    
+    Debug.Log($"Equipped: {newWeapon}");
+}
 
     void Shoot()
     {
@@ -122,11 +125,10 @@ public class PlayerShooting : MonoBehaviour
 
         int currentDamage = GetCurrentWeaponDamage();
 
-        // --- FIXED: Rifle calls a sequence routine instead of instant frame calculation ---
         if (currentWeapon == WeaponType.Rifle)
         {
             StartCoroutine(RifleDoubleShotSequence(currentDamage));
-            return; // Exit out early so the code below doesn't run for the rifle
+            return;
         }
 
         switch (currentWeapon)
@@ -163,7 +165,6 @@ public class PlayerShooting : MonoBehaviour
         }
     }
 
-    // --- NEW: This runs the two shots one right after another with audio and animation fixed ---
     System.Collections.IEnumerator RifleDoubleShotSequence(int damageToSet)
     {
         if (bulletPrefab == null || activeFirePoint == null) yield break;
