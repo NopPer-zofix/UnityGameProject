@@ -4,29 +4,62 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
+    public Animator animator;
 
     private Rigidbody2D rb;
+    private AudioSource audioSource;
     private Vector2 moveInput;
 
     void Start()
     {
         // Get the Rigidbody2D component attached to the player
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
     {
-        // 1. Get Input (Horizontal = A/D or Left/Right, Vertical = W/S or Up/Down)
-        moveInput.x = Input.GetAxisRaw("Horizontal");
-        moveInput.y = Input.GetAxisRaw("Vertical");
+        // 1. Get raw values
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Vertical");
 
-        // 2. Normalize diagonal movement so the player doesn't move faster diagonally
-        moveInput.Normalize();
+        moveInput = new Vector2(x, y);
+
+        // 2. Set the Animator value BEFORE normalizing 
+        if (animator != null)
+        {
+            animator.SetFloat("speed", moveInput.magnitude);
+        }
+
+        // 3. Simple Audio Play/Stop
+        if (audioSource != null)
+        {
+            if (moveInput.sqrMagnitude > 0.01f)
+            {
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.Play();
+                }
+            }
+            else
+            {
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Stop();
+                }
+            }
+        }
+
+        // 4. Now normalize for movement
+        if (moveInput.sqrMagnitude > 0.01f)
+        {
+            moveInput.Normalize();
+        }
     }
 
     void FixedUpdate()
     {
-        // 3. Apply velocity to the Rigidbody
-        rb.velocity = moveInput * moveSpeed;
+        // Apply velocity to the Rigidbody
+        rb.MovePosition(rb.position + moveInput * moveSpeed * Time.fixedDeltaTime);
     }
 }

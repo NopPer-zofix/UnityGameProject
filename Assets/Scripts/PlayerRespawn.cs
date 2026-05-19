@@ -1,100 +1,96 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-/// <summary>
-/// PlayerRespawn — attach to the Player GameObject.
-///
-/// Fix: the respawn coroutine runs on RespawnManager (always active),
-/// so it never hits the "can't start coroutine on inactive object" error.
-///
-/// Visual death is handled by disabling the SpriteRenderer + Collider
-/// instead of the whole GameObject, keeping the MonoBehaviour alive.
-/// </summary>
 public class PlayerRespawn : MonoBehaviour
 {
-    [Header("Respawn")]
-    [Tooltip("Leave empty to respawn at the position this object starts at.")]
-    public Transform spawnPoint;
+    [Header("Health System")]
+    public float maxHealth = 100f;
+    public float currentHealth;
+    
+    [Header("Visual Effects (No Material Needed)")]
+    public float flashDuration = 0.1f;   // How long it stays tinted
+    public int flashCount = 3;           // How many times it blinks per hit
 
-    [Tooltip("Seconds between death and reappearance.")]
-    public float respawnDelay = 1.5f;
+    [Header("UI References")]
+    public GameObject deathScreen;
 
-    // Callbacks — subscribe from other systems (UI, score, audio, etc.)
-    public event Action OnPlayerDied;
-    public event Action OnPlayerSpawned;
-
-    // ── private ──────────────────────────────────────────────────────────────
-    private Vector3 defaultSpawn;
     private bool isDead = false;
-
-    // Components we hide instead of deactivating the whole GameObject
     private SpriteRenderer spriteRenderer;
     private Collider2D col;
     private Rigidbody2D rb;
 
-    // ─────────────────────────────────────────────────────────────────────────
     void Awake()
     {
-        defaultSpawn   = transform.position;
+        currentHealth = maxHealth;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        col            = GetComponent<Collider2D>();
-        rb             = GetComponent<Rigidbody2D>();
+        col = GetComponent<Collider2D>();
+        rb = GetComponent<Rigidbody2D>();
+        
+        if (deathScreen != null) deathScreen.SetActive(false);
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    /// <summary>
-    /// Called by EnemyAI (or any damage source) to kill the player.
-    /// </summary>
-    public void Die(Action onComplete = null)
+    public void TakeDamage(float amount)
     {
         if (isDead) return;
-        isDead = true;
 
-        OnPlayerDied?.Invoke();
-
-        // Hide visuals and disable physics — but keep the GameObject active
-        // so coroutines and component references stay valid.
-        SetVisible(false);
-
-        // Hand the coroutine off to the always-alive RespawnManager.
-        RespawnManager.Instance.RunRespawn(RespawnRoutine(onComplete));
+        currentHealth -= amount;
+        
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+        else
+        {
+            // Trigger the Tint Flash
+            StartCoroutine(FlashRoutine());
+        }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    IEnumerator RespawnRoutine(Action onComplete)
+    // METHOD 1: Direct color manipulation
+    IEnumerator FlashRoutine()
     {
-        yield return new WaitForSeconds(respawnDelay);
+        if (spriteRenderer == null) yield break;
 
-        // Teleport to spawn point
-        Vector3 target = spawnPoint != null ? spawnPoint.position : defaultSpawn;
-        transform.position = target;
+        for (int i = 0; i < flashCount; i++)
+        {
+            // Turn the sprite red and half-transparent
+            spriteRenderer.color = new Color(1f, 0f, 0f, 0.5f); 
+            yield return new WaitForSeconds(flashDuration);
 
-        // Reset physics
-        if (rb != null) { rb.velocity = Vector2.zero; rb.angularVelocity = 0f; }
-
-        // Restore visuals
-        SetVisible(true);
-
-        isDead = false;
-        OnPlayerSpawned?.Invoke();
-        onComplete?.Invoke();
+            // Turn it back to normal (White means 100% natural sprite colors)
+            spriteRenderer.color = Color.white; 
+            yield return new WaitForSeconds(flashDuration);
+        }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    void SetVisible(bool visible)
+    public void Die()
+{
+    if (isDead) return;
+    isDead = true;
+    
+    StopAllCoroutines();
+    
+    // STOP FOOTSTEPS ON DEATH
+    AudioSource audio = GetComponent<AudioSource>();
+    if (audio != null) audio.Stop();
+    PlayerShooting shootingScript = GetComponent<PlayerShooting>();
+    if (shootingScript != null)
     {
-        if (spriteRenderer != null) spriteRenderer.enabled = visible;
-        if (col            != null) col.enabled            = visible;
+        shootingScript.enabled = false; 
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    void OnDrawGizmos()
+    if (spriteRenderer != null) spriteRenderer.enabled = false;
+    if (col != null) col.enabled = false;
+    if (rb != null) rb.velocity = Vector2.zero;
+
+    if (deathScreen != null) deathScreen.SetActive(true);
+}
+
+public void RestartLevel()
     {
-        Vector3 pos = (spawnPoint != null) ? spawnPoint.position : defaultSpawn;
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(pos, 0.3f);
-        Gizmos.DrawLine(pos + Vector3.up    * 0.3f, pos - Vector3.up    * 0.3f);
-        Gizmos.DrawLine(pos + Vector3.right * 0.3f, pos - Vector3.right * 0.3f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
 }
