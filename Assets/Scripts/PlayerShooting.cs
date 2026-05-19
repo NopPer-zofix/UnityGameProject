@@ -8,7 +8,9 @@ public class PlayerShooting : MonoBehaviour
     public WeaponType currentWeapon = WeaponType.Pistol;
 
     [Header("References")]
-    public GameObject bulletPrefab;
+    public GameObject PistolBulletPrefab;
+    public GameObject ShotgunBulletPrefab;
+    public GameObject RifleBulletPrefab;
     public Transform gunTransform;
 
     [Header("Weapon Models")]
@@ -44,10 +46,26 @@ public class PlayerShooting : MonoBehaviour
     [Tooltip("Optional sound to play when pressing R to pump the shotgun")]
     public AudioClip shotgunPumpSound;
 
+    [Header("Ammo Settings (Max Capacity)")]
+    public int pistolMaxAmmo = 7;
+    public int shotgunMaxAmmo = 2;
+    public int rifleMaxAmmo = 30;
+
+    [Header("Current Ammo Tracking")]
+    public int currentPistolAmmo;
+    public int currentShotgunAmmo;
+    public int currentRifleAmmo;
+
+    private float nextPistolFireTime = 0f;
     private Transform activeFirePoint;
 
     void Start()
     {
+        // Fill up all ammo pools right at the start of the game
+        currentPistolAmmo = pistolMaxAmmo;
+        currentShotgunAmmo = shotgunMaxAmmo;
+        currentRifleAmmo = rifleMaxAmmo;
+
         EquipWeapon(currentWeapon);
     }
 
@@ -90,33 +108,52 @@ public class PlayerShooting : MonoBehaviour
         Debug.DrawLine(gunTransform.position, mousePos, Color.red);
     }
 
+    // --- UPDATED: Handles swapping models seamlessly and resetting counters ---
     public void EquipWeapon(WeaponType newWeapon)
-{
-    currentWeapon = newWeapon;
-
-    if (pistolModel != null) pistolModel.SetActive(newWeapon == WeaponType.Pistol);
-    if (shotgunModel != null) shotgunModel.SetActive(newWeapon == WeaponType.Shotgun);
-    if (rifleModel != null) rifleModel.SetActive(newWeapon == WeaponType.Rifle);
-
-    switch (newWeapon)
     {
-        case WeaponType.Pistol:
-            activeFirePoint = pistolFirePoint;
-            break;
-        case WeaponType.Shotgun:
-            activeFirePoint = shotgunFirePoint;
-            isShotgunReady = true; // Auto-load it when picked up!
-            break;
-        case WeaponType.Rifle:
-            activeFirePoint = rifleFirePoint;
-            break;
+        currentWeapon = newWeapon;
+
+        // Turning a model ON automatically disables the others, making previous weapons disappear
+        if (pistolModel != null) pistolModel.SetActive(newWeapon == WeaponType.Pistol);
+        if (shotgunModel != null) shotgunModel.SetActive(newWeapon == WeaponType.Shotgun);
+        if (rifleModel != null) rifleModel.SetActive(newWeapon == WeaponType.Rifle);
+
+        // Assign correct structural settings and fully REFRESH weapon ammo capacities upon pickup
+        switch (newWeapon)
+        {
+            case WeaponType.Pistol:
+                activeFirePoint = pistolFirePoint;
+                currentPistolAmmo = pistolMaxAmmo; // Refresh counter
+                break;
+
+            case WeaponType.Shotgun:
+                activeFirePoint = shotgunFirePoint;
+                currentShotgunAmmo = shotgunMaxAmmo; // Refresh counter
+                isShotgunReady = true;               // Auto-pump the clean shell
+                break;
+
+            case WeaponType.Rifle:
+                activeFirePoint = rifleFirePoint;
+                currentRifleAmmo = rifleMaxAmmo; // Refresh counter
+                break;
+        }
+        
+        Debug.Log($"Equipped: {newWeapon}. Ammo Counter Refreshed!");
     }
-    
-    Debug.Log($"Equipped: {newWeapon}");
-}
 
     void Shoot()
     {
+        if (!HasAmmoToShoot())
+        {
+            Debug.Log($"{currentWeapon} is completely out of ammo!");
+            return;
+        }
+
+        if (currentWeapon == WeaponType.Pistol && Time.time < nextPistolFireTime)
+        {
+            return; 
+        }
+
         if (currentWeapon == WeaponType.Shotgun && !isShotgunReady)
         {
             Debug.Log("Shotgun needs to be reloaded! Press R.");
@@ -136,17 +173,21 @@ public class PlayerShooting : MonoBehaviour
             case WeaponType.Pistol:
                 if (pistolAnimator != null) pistolAnimator.SetTrigger("Shoot");
                 if (pistolAudioSource != null && pistolAudioSource.clip != null) pistolAudioSource.PlayOneShot(pistolAudioSource.clip);
+                
+                currentPistolAmmo--; 
+                nextPistolFireTime = Time.time + 1f;
                 break;
 
             case WeaponType.Shotgun:
                 if (shotgunAnimator != null) shotgunAnimator.SetTrigger("Shoot");
                 if (shotgunAudioSource != null && shotgunAudioSource.clip != null) shotgunAudioSource.PlayOneShot(shotgunAudioSource.clip);
                 
+                currentShotgunAmmo--; 
                 isShotgunReady = false; 
                 break;
         }
 
-        if (bulletPrefab != null && activeFirePoint != null)
+        if (activeFirePoint != null)
         {
             if (currentWeapon == WeaponType.Shotgun)
             {
@@ -167,22 +208,21 @@ public class PlayerShooting : MonoBehaviour
 
     System.Collections.IEnumerator RifleDoubleShotSequence(int damageToSet)
     {
-        if (bulletPrefab == null || activeFirePoint == null) yield break;
-
         // ======= SHOT 1 =======
         if (rifleAnimator != null) rifleAnimator.SetTrigger("Shoot");
         if (rifleAudioSource != null && rifleAudioSource.clip != null) rifleAudioSource.PlayOneShot(rifleAudioSource.clip);
         SpawnBullet(activeFirePoint.rotation, damageToSet, Vector3.zero);
+        currentRifleAmmo--; 
 
-        // Wait a tiny split second (0.06 seconds) so the audio and animations can reset
         yield return new WaitForSeconds(0.06f);
 
         // ======= SHOT 2 =======
-        if (currentWeapon == WeaponType.Rifle && activeFirePoint != null)
+        if (currentWeapon == WeaponType.Rifle && activeFirePoint != null && currentRifleAmmo > 0)
         {
             if (rifleAnimator != null) rifleAnimator.SetTrigger("Shoot");
             if (rifleAudioSource != null && rifleAudioSource.clip != null) rifleAudioSource.PlayOneShot(rifleAudioSource.clip);
             SpawnBullet(activeFirePoint.rotation, damageToSet, Vector3.zero);
+            currentRifleAmmo--; 
         }
     }
 
@@ -203,6 +243,17 @@ public class PlayerShooting : MonoBehaviour
         }
     }
 
+    bool HasAmmoToShoot()
+    {
+        switch (currentWeapon)
+        {
+            case WeaponType.Pistol: return currentPistolAmmo > 0;
+            case WeaponType.Shotgun: return currentShotgunAmmo > 0;
+            case WeaponType.Rifle: return currentRifleAmmo > 0;
+            default: return false;
+        }
+    }
+
     int GetCurrentWeaponDamage()
     {
         switch (currentWeapon)
@@ -216,7 +267,18 @@ public class PlayerShooting : MonoBehaviour
 
     void SpawnBullet(Quaternion rotation, int damageToSet, Vector3 positionOffset = default(Vector3))
     {
-        GameObject bulletInstance = Instantiate(bulletPrefab, activeFirePoint.position + positionOffset, rotation);
+        GameObject selectedPrefab = null;
+
+        switch (currentWeapon)
+        {
+            case WeaponType.Pistol: selectedPrefab = PistolBulletPrefab; break;
+            case WeaponType.Shotgun: selectedPrefab = ShotgunBulletPrefab; break;
+            case WeaponType.Rifle: selectedPrefab = RifleBulletPrefab; break;
+        }
+
+        if (selectedPrefab == null || activeFirePoint == null) return;
+
+        GameObject bulletInstance = Instantiate(selectedPrefab, activeFirePoint.position + positionOffset, rotation);
         Bullet bulletScript = bulletInstance.GetComponent<Bullet>();
         
         if (bulletScript != null)
