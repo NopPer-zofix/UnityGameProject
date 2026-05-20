@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: walking_anim
+  m_Name: walking_anim_AK
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -39,27 +39,6 @@ AnimationClip:
     path: 
     classID: 212
     script: {fileID: 0}
-  - curve:
-    - time: 0
-      value: {fileID: 1328050219, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
-    - time: 0.016666668
-      value: {fileID: -1973368036, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
-    - time: 0.033333335
-      value: {fileID: 1881477286, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
-    - time: 0.05
-      value: {fileID: 1019587092, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
-    - time: 0.06666667
-      value: {fileID: 1270550796, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
-    - time: 0.083333336
-      value: {fileID: -974739163, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
-    - time: 0.1
-      value: {fileID: 1943124499, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
-    - time: 0.11666667
-      value: {fileID: -1524656035, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
-    attribute: m_Sprite
-    path: ZombieLarge
-    classID: 212
-    script: {fileID: 0}
   m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
@@ -74,22 +53,7 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
-    - serializedVersion: 2
-      path: 4127706364
-      attribute: 0
-      script: {fileID: 0}
-      typeID: 212
-      customType: 23
-      isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 1328050219, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
-    - {fileID: -1973368036, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
-    - {fileID: 1881477286, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
-    - {fileID: 1019587092, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
-    - {fileID: 1270550796, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
-    - {fileID: -974739163, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
-    - {fileID: 1943124499, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
-    - {fileID: -1524656035, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
     - {fileID: 1328050219, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
     - {fileID: -1973368036, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}
     - {fileID: 1881477286, guid: fd894de386eeae4449a8e1fd920b8024, type: 3}

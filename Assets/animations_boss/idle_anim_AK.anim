@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: idle_anim
+  m_Name: idle_anim_AK
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -35,23 +35,6 @@ AnimationClip:
     path: 
     classID: 212
     script: {fileID: 0}
-  - curve:
-    - time: 0
-      value: {fileID: 1140459345, guid: f57f3ace47ae9814d9c135bb2c95939e, type: 3}
-    - time: 0.016666668
-      value: {fileID: 527723534, guid: f57f3ace47ae9814d9c135bb2c95939e, type: 3}
-    - time: 0.033333335
-      value: {fileID: -1934668049, guid: f57f3ace47ae9814d9c135bb2c95939e, type: 3}
-    - time: 0.05
-      value: {fileID: -1373963504, guid: f57f3ace47ae9814d9c135bb2c95939e, type: 3}
-    - time: 0.06666667
-      value: {fileID: 1565102910, guid: f57f3ace47ae9814d9c135bb2c95939e, type: 3}
-    - time: 0.083333336
-      value: {fileID: -613743145, guid: f57f3ace47ae9814d9c135bb2c95939e, type: 3}
-    attribute: m_Sprite
-    path: ZombieLarge
-    classID: 212
-    script: {fileID: 0}
   m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
@@ -66,20 +49,7 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
-    - serializedVersion: 2
-      path: 4127706364
-      attribute: 0
-      script: {fileID: 0}
-      typeID: 212
-      customType: 23
-      isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 1140459345, guid: f57f3ace47ae9814d9c135bb2c95939e, type: 3}
-    - {fileID: 527723534, guid: f57f3ace47ae9814d9c135bb2c95939e, type: 3}
-    - {fileID: -1934668049, guid: f57f3ace47ae9814d9c135bb2c95939e, type: 3}
-    - {fileID: -1373963504, guid: f57f3ace47ae9814d9c135bb2c95939e, type: 3}
-    - {fileID: 1565102910, guid: f57f3ace47ae9814d9c135bb2c95939e, type: 3}
-    - {fileID: -613743145, guid: f57f3ace47ae9814d9c135bb2c95939e, type: 3}
     - {fileID: 1140459345, guid: f57f3ace47ae9814d9c135bb2c95939e, type: 3}
     - {fileID: 527723534, guid: f57f3ace47ae9814d9c135bb2c95939e, type: 3}
     - {fileID: -1934668049, guid: f57f3ace47ae9814d9c135bb2c95939e, type: 3}
