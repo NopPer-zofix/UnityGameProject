@@ -63,7 +63,7 @@ public class EnemyAI : MonoBehaviour
 
         RequestPath();
     }
-
+        
     // ─────────────────────────────────────────────────────────────────────────
     // Attack detection in Update — runs every frame, never misses
     void Update()

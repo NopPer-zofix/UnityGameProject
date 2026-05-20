@@ -177,7 +177,7 @@ Transform:
   m_GameObject: {fileID: 5130071514312623443}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.5162, y: 0.8012, z: 0}
-  m_LocalScale: {x: 11.323017, y: 11.015914, z: 4.4702}
+  m_LocalScale: {x: 9, y: 9, z: 9}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5130071514109579320}
@@ -360,7 +360,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWeapon: 0
-  bulletPrefab: {fileID: 2802883866437218233, guid: a746b3f5966270d4699058d957aa5340, type: 3}
+  PistolBulletPrefab: {fileID: 1948597467365859700, guid: 3463f7c94d7cb294ebfc0a704f039e82, type: 3}
+  ShotgunBulletPrefab: {fileID: 799932065247685027, guid: 8ada1a5cee54bbb4ba2b5d51a245e7da, type: 3}
+  RifleBulletPrefab: {fileID: 5704664165159106414, guid: bcab93e3cc51a8a4cb913f00e624726c, type: 3}
   gunTransform: {fileID: 5130071514109579320}
   pistolModel: {fileID: 5130071514330574618}
   shotgunModel: {fileID: 8453040701422449359}
@@ -374,12 +376,18 @@ MonoBehaviour:
   pistolFirePoint: {fileID: 5130071515217642178}
   shotgunFirePoint: {fileID: 5318141646617580010}
   rifleFirePoint: {fileID: 7372419257318407804}
-  spreadAngle: 15
+  spreadAngle: 5
   pistolDamage: 1
   shotgunDamage: 1
   rifleDamage: 2
   isShotgunReady: 1
   shotgunPumpSound: {fileID: 8300000, guid: 9158afb6966d445db9caf1dccf7acbcc, type: 3}
+  pistolMaxAmmo: 20
+  shotgunMaxAmmo: 15
+  rifleMaxAmmo: 10
+  currentPistolAmmo: 0
+  currentShotgunAmmo: 0
+  currentRifleAmmo: 0
 --- !u!82 &6227281598627811157
 AudioSource:
   m_ObjectHideFlags: 0
@@ -920,7 +928,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7895944871395315286
 Transform:
   m_ObjectHideFlags: 0

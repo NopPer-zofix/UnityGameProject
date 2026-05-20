@@ -28,7 +28,6 @@ public class Bullet : MonoBehaviour
     {
         if (hitInfo.gameObject.tag.StartsWith("zombie")) 
         {
-            // Now this matches perfectly because damage is an int!
             hitInfo.GetComponent<EnemyHealth>()?.TakeDamage(damage);
             Destroy(gameObject); 
             return; 

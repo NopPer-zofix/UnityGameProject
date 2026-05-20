@@ -7,6 +7,10 @@ public class WeaponPickup : MonoBehaviour
 
     private bool playerIsClose = false;
     private PlayerShooting playerShootingScript;
+    
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip pickupSound; // Drag your audio clip here in the Inspector
+    
 
     void Update()
     {
@@ -24,8 +28,11 @@ public class WeaponPickup : MonoBehaviour
             // Tell the player script to change its active child model and stats
             playerShootingScript.EquipWeapon(weaponToGive);
             
-            // Destroy the ground pickup item so it disappears
             Destroy(gameObject);
+            if (pickupSound != null)
+            {
+                AudioSource.PlayClipAtPoint(pickupSound, transform.position);
+            }
         }
     }
 
@@ -43,7 +50,6 @@ public class WeaponPickup : MonoBehaviour
         }
     }
 
-    // Detect when the player walks away from the weapon
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
