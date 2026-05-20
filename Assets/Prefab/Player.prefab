@@ -376,15 +376,15 @@ MonoBehaviour:
   pistolFirePoint: {fileID: 5130071515217642178}
   shotgunFirePoint: {fileID: 5318141646617580010}
   rifleFirePoint: {fileID: 7372419257318407804}
-  spreadAngle: 15
+  spreadAngle: 5
   pistolDamage: 1
   shotgunDamage: 1
   rifleDamage: 2
   isShotgunReady: 1
   shotgunPumpSound: {fileID: 8300000, guid: 9158afb6966d445db9caf1dccf7acbcc, type: 3}
-  pistolMaxAmmo: 7
-  shotgunMaxAmmo: 2
-  rifleMaxAmmo: 30
+  pistolMaxAmmo: 20
+  shotgunMaxAmmo: 15
+  rifleMaxAmmo: 10
   currentPistolAmmo: 0
   currentShotgunAmmo: 0
   currentRifleAmmo: 0
