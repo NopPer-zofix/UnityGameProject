@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: death_anim
+  m_Name: death_anim_Ak
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -39,27 +39,6 @@ AnimationClip:
     path: 
     classID: 212
     script: {fileID: 0}
-  - curve:
-    - time: 0
-      value: {fileID: 396181405, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
-    - time: 0.016666668
-      value: {fileID: 723016584, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
-    - time: 0.033333335
-      value: {fileID: -1440305661, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
-    - time: 0.05
-      value: {fileID: 1654952181, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
-    - time: 0.06666667
-      value: {fileID: 251628843, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
-    - time: 0.083333336
-      value: {fileID: -219084972, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
-    - time: 0.1
-      value: {fileID: -1178370596, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
-    - time: 0.11666667
-      value: {fileID: 1399270978, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
-    attribute: m_Sprite
-    path: ZombieLarge
-    classID: 212
-    script: {fileID: 0}
   m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
@@ -74,22 +53,7 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
-    - serializedVersion: 2
-      path: 4127706364
-      attribute: 0
-      script: {fileID: 0}
-      typeID: 212
-      customType: 23
-      isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 396181405, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
-    - {fileID: 723016584, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
-    - {fileID: -1440305661, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
-    - {fileID: 1654952181, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
-    - {fileID: 251628843, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
-    - {fileID: -219084972, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
-    - {fileID: -1178370596, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
-    - {fileID: 1399270978, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
     - {fileID: 396181405, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
     - {fileID: 723016584, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
     - {fileID: -1440305661, guid: 48b4c1a3d82f0ab438f96cdd46f7ae02, type: 3}
