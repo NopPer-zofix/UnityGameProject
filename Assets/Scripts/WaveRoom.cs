@@ -1,18 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// WaveRoom — attach to an invisible trigger GameObject (the doorway).
-///
-/// When the player walks in, all enemies in this room have their
-/// EnemyAI enabled and start chasing.
-///
-/// Setup per room:
-///   1. Empty GameObject at the doorway entrance.
-///   2. BoxCollider2D → Is Trigger = ON.
-///   3. Attach this script.
-///   4. Drag all enemy GameObjects for this room into "Room Enemies".
-///   5. (Optional) drag a door GameObject into "Door" — it activates on entry.
-/// </summary>
 public class WaveRoom : MonoBehaviour
 {
     [Header("Room Enemies")]
@@ -21,6 +8,10 @@ public class WaveRoom : MonoBehaviour
     [Header("Optional")]
     [Tooltip("A wall/gate to block the entrance after the player enters.")]
     public GameObject door;
+
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip aggroSound; // Drag your aggressive zombie roar clip here
+    [SerializeField] [Range(0f, 1f)] private float volume = 1f;
 
     // ── private ──────────────────────────────────────────────────────────────
     private bool activated = false;
@@ -50,6 +41,15 @@ public class WaveRoom : MonoBehaviour
         // Close the door behind the player (optional)
         if (door != null)
             door.SetActive(true);
+
+        // PLAY AGGRO/AMBUSH SOUND
+        if (aggroSound != null)
+        {
+            // If you want the sound to feel like it comes from the wall, use door.transform.position
+            // Otherwise, transform.position uses the center of this trigger room zone
+            Vector3 soundPosition = door != null ? door.transform.position : transform.position;
+            AudioSource.PlayClipAtPoint(aggroSound, soundPosition, volume);
+        }
 
         // Disable trigger so it only fires once
         GetComponent<Collider2D>().enabled = false;

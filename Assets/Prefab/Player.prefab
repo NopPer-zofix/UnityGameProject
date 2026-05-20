@@ -308,7 +308,9 @@ MonoBehaviour:
   currentHealth: 0
   flashDuration: 0.1
   flashCount: 3
+  animator: {fileID: 5130071514312623452}
   deathScreen: {fileID: 0}
+  deathAnimationDelay: 1
 --- !u!114 &5130071514312623449
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -81,6 +81,8 @@ MonoBehaviour:
   animator: {fileID: 1896172942260866318}
   spawnAnimDuration: 1
   deathAnimDuration: 2
+  spawnWaveSound: {fileID: 8300000, guid: 326203e6dcd57467c92e2bcbf9c25e85, type: 3}
+  spawnWaveVolume: 1
 --- !u!50 &7734233435917121675
 Rigidbody2D:
   serializedVersion: 4

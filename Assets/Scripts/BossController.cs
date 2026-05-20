@@ -50,6 +50,10 @@ public class BossController : MonoBehaviour
     [Tooltip("Must match death animation length in seconds.")]
     public float deathAnimDuration = 1.5f;
 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip spawnWaveSound; // Drag your boss summon/roar clip here
+    [SerializeField] [Range(0f, 1f)] private float spawnWaveVolume = 0.9f;
+
     // ── private ──────────────────────────────────────────────────────────────
     private int  currentHealth;
     private int  currentPhase = 0;
@@ -103,6 +107,12 @@ public class BossController : MonoBehaviour
     // ─────────────────────────────────────────────────────────────────────────
     IEnumerator SpawnWave()
     {
+        // 1. Play the spawn sound instantly as the animation starts
+        if (spawnWaveSound != null)
+        {
+            AudioSource.PlayClipAtPoint(spawnWaveSound, transform.position, spawnWaveVolume);
+        }
+
         // Play spawn animation and wait for it to finish
         if (animator != null)
             animator.SetTrigger("spawn");
@@ -129,7 +139,7 @@ public class BossController : MonoBehaviour
         {
             // Spread enemies evenly in a circle
             float   angle    = i * (360f / spawnCount) * Mathf.Deg2Rad;
-            Vector2 offset   = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * spawnRadius;
+            Vector2 offset    = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * spawnRadius;
             Vector3 spawnPos = spawnPoint.position + new Vector3(offset.x, offset.y, 0);
 
             GameObject enemy = Instantiate(prefab, spawnPos, Quaternion.identity);

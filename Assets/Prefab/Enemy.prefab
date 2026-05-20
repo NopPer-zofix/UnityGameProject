@@ -132,6 +132,10 @@ MonoBehaviour:
   waypointReached: 0.4
   animator: {fileID: -7809214466960555586}
   player: {fileID: 0}
+  movementSound: {fileID: 8300000, guid: 1fecea306f7e06b40b57a6bd65d2487f, type: 3}
+  attackSound: {fileID: 8300000, guid: 29726c349dbf64b0aadfe8c9ec00d728, type: 3}
+  movementVolume: 0.7
+  attackVolume: 1
 --- !u!61 &8599164466256533641
 BoxCollider2D:
   m_ObjectHideFlags: 0
