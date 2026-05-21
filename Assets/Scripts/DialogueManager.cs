@@ -22,7 +22,7 @@ public class DialogueManager : MonoBehaviour
     
     private int currentLineIndex = 0;
     private string targetSceneName;
-    private PlayerShooting playerShooting; // Reference to player's gun logic
+    private PlayerShooting playerShooting; 
 
     public void StartDialogue(string nextScene)
     {
@@ -30,7 +30,6 @@ public class DialogueManager : MonoBehaviour
         gameObject.SetActive(true); 
         currentLineIndex = 0;
 
-        // Find the player and lock their weapons
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
@@ -79,7 +78,6 @@ public class DialogueManager : MonoBehaviour
 
     private void EndDialogue()
     {
-        // UNLOCK GUNS before changing levels or closing UI
         if (playerShooting != null)
         {
             playerShooting.CanShoot = true; 

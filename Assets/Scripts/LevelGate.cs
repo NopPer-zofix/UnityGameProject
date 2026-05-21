@@ -19,7 +19,6 @@ public class LevelGate : MonoBehaviour
             {
                 inventory.UseKey();
                 
-                // Turn off the locked message if it's currently on screen
                 if (lockedMessageUI != null) lockedMessageUI.SetActive(false);
                 
                 TriggerDialogueSequence();
@@ -43,12 +42,10 @@ public class LevelGate : MonoBehaviour
     {
         if (dialogueManager != null)
         {
-            // Turn off player movement here if you want them frozen during dialogue!
             dialogueManager.StartDialogue(nextSceneName);
         }
         else
         {
-            // Safety backup: skip straight to scene transition if manager isn't assigned
             UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
         }
     }
