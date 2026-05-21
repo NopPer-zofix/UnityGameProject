@@ -119,7 +119,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: -1.47, y: 0.92}
   serializedVersion: 2
-  m_Radius: 3.17
+  m_Radius: 2
 --- !u!95 &5275271002928617974
 Animator:
   serializedVersion: 5
@@ -128,7 +128,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7734233435917121673}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: c24c443163a814f719783aa4762a2c37, type: 2}
   m_CullingMode: 0
