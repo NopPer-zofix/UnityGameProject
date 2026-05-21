@@ -59,6 +59,8 @@ public class PlayerShooting : MonoBehaviour
     private float nextPistolFireTime = 0f;
     private Transform activeFirePoint;
 
+    public bool CanShoot { get; set; } = true;
+
     void Start()
     {
         // Fill up all ammo pools right at the start of the game
@@ -71,6 +73,8 @@ public class PlayerShooting : MonoBehaviour
 
     void Update()
     {
+        if (!CanShoot) return;
+        
         if (gunTransform != null)
         {
             RotateGun();
