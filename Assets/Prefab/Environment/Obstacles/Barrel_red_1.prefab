@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3238907533435802172}
   - component: {fileID: 3238907533435802170}
   - component: {fileID: 3238907533435802173}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Barrel_red_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 33fd512860937ab49963f98b66595ea0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
