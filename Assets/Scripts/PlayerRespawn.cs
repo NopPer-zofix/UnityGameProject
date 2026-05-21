@@ -119,6 +119,8 @@ public class PlayerRespawn : MonoBehaviour
             animator.SetTrigger("Die");
         }
 
+        AudioManager.Instance?.PlayGameOver();
+
         if (col != null) col.enabled = false;
         if (rb != null) rb.velocity = Vector2.zero;
 

@@ -41,7 +41,7 @@ AudioSource:
   m_GameObject: {fileID: 4697082666522984059}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -7103239338768386629, guid: 6527436821a1a504e863d151e34859a5, type: 2}
+  OutputAudioMixerGroup: {fileID: 1402811634509040411, guid: 6527436821a1a504e863d151e34859a5, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -275,9 +275,9 @@ MonoBehaviour:
   musicSource: {fileID: 4697082666522984058}
   sfxSource: {fileID: 4697082668003878304}
   menuMusic: {fileID: 8300000, guid: 2dc20afb883802d449339f9256b466ff, type: 3}
-  levelMusic: {fileID: 8300000, guid: 713e56cd1bc06384d9b410f18b3e6b07, type: 3}
-  gameOverMusic: {fileID: 8300000, guid: 03cd8fe1448954e42b7f717b2d86a616, type: 3}
-  victoryMusic: {fileID: 8300000, guid: 2861e591fa1959144a29389b14fedcb3, type: 3}
+  levelMusic: {fileID: 8300000, guid: b233409d5365f9040a97fb28098ff536, type: 3}
+  gameOverMusic: {fileID: 8300000, guid: adfe0d554589a474d82d6598ef76eb52, type: 3}
+  victoryMusic: {fileID: 8300000, guid: 90bf8669839df6a4b8478bfffa2cf86d, type: 3}
   PistolSFX: {fileID: 8300000, guid: 2203773368e4340d98c114f55c2dd7fd, type: 3}
   SmgSFX: {fileID: 8300000, guid: 1b145bcffd767854fb0c71c37678ebaa, type: 3}
   ShotgunSFX: {fileID: 8300000, guid: d723cdd20ff62794eb0dee1062b04236, type: 3}
@@ -324,7 +324,7 @@ AudioSource:
   m_GameObject: {fileID: 4697082668003878305}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -4902967893044718605, guid: 6527436821a1a504e863d151e34859a5, type: 2}
+  OutputAudioMixerGroup: {fileID: 1402811634509040411, guid: 6527436821a1a504e863d151e34859a5, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
