@@ -204,7 +204,7 @@ public class PlayerShooting : MonoBehaviour
                 if (pistolAudioSource != null && pistolAudioSource.clip != null) pistolAudioSource.PlayOneShot(pistolAudioSource.clip);
                 
                 currentPistolAmmo--; 
-                nextPistolFireTime = Time.time + 1f;
+                nextPistolFireTime = Time.time + 0.45f;
                 RefreshAmmoUI();
                 break;
 

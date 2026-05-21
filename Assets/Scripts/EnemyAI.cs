@@ -77,11 +77,12 @@ public class EnemyAI : MonoBehaviour
     // ─────────────────────────────────────────────────────────────────────────
     void Update()
     {
-        // Freeze while paused
         if (PauseMenu.IsPaused) 
         {
-            if (enemyAudioSource != null && enemyAudioSource.isPlaying)
+            if (enemyAudioSource != null && enemyAudioSource.isPlaying){
+
                 enemyAudioSource.Stop();
+            }
         }
 
         if (player == null) return;
