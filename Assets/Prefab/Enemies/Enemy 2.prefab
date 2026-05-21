@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 356ae69860ea25744a669bd23c5bb7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 6
   attackRange: 2
   damageValue: 25
   attackRate: 1
@@ -132,6 +132,10 @@ MonoBehaviour:
   waypointReached: 0.4
   animator: {fileID: 258650011970910022}
   player: {fileID: 0}
+  movementSound: {fileID: 8300000, guid: 1fecea306f7e06b40b57a6bd65d2487f, type: 3}
+  attackSound: {fileID: 8300000, guid: 29726c349dbf64b0aadfe8c9ec00d728, type: 3}
+  movementVolume: 0.5
+  attackVolume: 0.8
 --- !u!114 &7068359499322354543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,4 +205,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.09
+  m_Radius: 0.06
