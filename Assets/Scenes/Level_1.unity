@@ -11177,6 +11177,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5130071514312623455, guid: 0e7c892686e8deb47a3fc3507bce6f03, type: 3}
+      propertyPath: rifleMaxAmmo
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5130071514312623455, guid: 0e7c892686e8deb47a3fc3507bce6f03, type: 3}
+      propertyPath: shotgunMaxAmmo
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e7c892686e8deb47a3fc3507bce6f03, type: 3}
 --- !u!1001 &1431589338
