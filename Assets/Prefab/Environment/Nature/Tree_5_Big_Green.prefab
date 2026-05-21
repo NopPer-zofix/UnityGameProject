@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 323554859870162193}
   - component: {fileID: 323554859870162195}
   - component: {fileID: 323554859870162192}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Tree_5_Big_Green
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: b061810ff75f29a498823abe878d6683, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
