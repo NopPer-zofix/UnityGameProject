@@ -8,7 +8,8 @@ public class PlayerRespawn : MonoBehaviour
     [Header("Health System")]
     public float maxHealth = 100f;
     public float currentHealth;
-    
+    public HeartsUI heartsUI;       // drag HeartsUI object here
+
     [Header("Visual Effects (No Material Needed)")]
     public float flashDuration = 0.1f;   
     public int flashCount = 3;           
@@ -23,8 +24,15 @@ public class PlayerRespawn : MonoBehaviour
     private Collider2D col;
     private Rigidbody2D rb;
     private PlayerMovement playerMovementScript; 
-    private PlayerShooting shootingScript;       
+    private PlayerShooting shootingScript;
     private GameObject gunPivotObject; // Automatically tracks your GunPivot
+
+    void Start()
+    {
+        // Initialise hearts to full on level load
+        if (heartsUI != null)
+            heartsUI.UpdateHearts((int)currentHealth);
+    }
 
     void Awake()
     {
@@ -51,7 +59,10 @@ public class PlayerRespawn : MonoBehaviour
         if (isDead) return;
 
         currentHealth -= amount;
-        
+
+        if (heartsUI != null)
+            heartsUI.UpdateHearts((int)currentHealth);
+
         if (currentHealth <= 0)
         {
             Die();
