@@ -1,5 +1,5 @@
 # 👾 UnityGameProject
-## Name of the game: <span style = "color:red">Dead Floor</span>
+## Name of the game: <span style = "color:red">Still Standing</span>
 This is our group's Unity game project. It's the Top-Down zoombie shooter, made with a use of Unity Free assets and our imagination.
 
 # Starting
