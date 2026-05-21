@@ -19,6 +19,17 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (PauseMenu.IsPaused)
+        {
+            moveInput = Vector2.zero;
+            // Stop looping footstep sound on pause
+            if (audioSource != null && audioSource.isPlaying)
+                audioSource.Stop();
+            if (animator != null)
+                animator.SetFloat("speed", 0f);
+            return;
+        }
+
         // 1. Get raw values
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
@@ -59,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Apply velocity to the Rigidbody
+        if (PauseMenu.IsPaused) { rb.velocity = Vector2.zero; return; }
         rb.MovePosition(rb.position + moveInput * moveSpeed * Time.fixedDeltaTime);
     }
 }

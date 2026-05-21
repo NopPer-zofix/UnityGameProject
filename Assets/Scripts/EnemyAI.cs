@@ -77,6 +77,13 @@ public class EnemyAI : MonoBehaviour
     // ─────────────────────────────────────────────────────────────────────────
     void Update()
     {
+        // Freeze while paused
+        if (PauseMenu.IsPaused) 
+        {
+            if (enemyAudioSource != null && enemyAudioSource.isPlaying)
+                enemyAudioSource.Stop();
+        }
+
         if (player == null) return;
 
         float dist = Vector2.Distance(transform.position, player.position);
@@ -88,6 +95,8 @@ public class EnemyAI : MonoBehaviour
     // ─────────────────────────────────────────────────────────────────────────
     void FixedUpdate()
     {
+        if (PauseMenu.IsPaused) { rb.velocity = Vector2.zero; return; }
+
         if (player == null || (playerRespawn != null && playerRespawn.currentHealth <= 0))
         {
             rb.velocity = Vector2.zero;
@@ -140,7 +149,7 @@ public class EnemyAI : MonoBehaviour
     yield return new WaitForSeconds(attackAnimDuration);
 
     // Double check health at the last frame before applying damage
-    if (player != null && playerRespawn != null)
+    if (!PauseMenu.IsPaused && player != null && playerRespawn != null)
     {
         float dist = Vector2.Distance(transform.position, player.position);
         if (dist <= attackRange && playerRespawn.currentHealth > 0)

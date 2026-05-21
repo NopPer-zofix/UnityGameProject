@@ -73,6 +73,8 @@ public class PlayerShooting : MonoBehaviour
 
     void Update()
     {
+        if (PauseMenu.IsPaused) return;
+
         if (!CanShoot) return;
         
         if (gunTransform != null)
