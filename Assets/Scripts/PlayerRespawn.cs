@@ -16,7 +16,7 @@ public class PlayerRespawn : MonoBehaviour
 
     [Header("Death References")]
     [SerializeField] private Animator animator;
-    public GameObject deathScreen;
+    public GameOverScreen deathScreen;
     [SerializeField] private float deathAnimationDelay = 1.5f; 
 
     private bool isDead = false;
@@ -51,7 +51,7 @@ public class PlayerRespawn : MonoBehaviour
             gunPivotObject = pivotTransform.gameObject;
         }
         
-        if (deathScreen != null) deathScreen.SetActive(false);
+        // if (deathScreen != null) deathScreen.SetActive(false);
     }
 
     public void TakeDamage(float amount)
@@ -131,7 +131,8 @@ public class PlayerRespawn : MonoBehaviour
 
         if (spriteRenderer != null) spriteRenderer.enabled = false;
 
-        if (deathScreen != null) deathScreen.SetActive(true);
+        if (deathScreen != null)
+            deathScreen.Show(0);
     }
 
     public void RestartLevel()
