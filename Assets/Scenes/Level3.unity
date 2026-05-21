@@ -7258,6 +7258,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5130071514312623453, guid: 0e7c892686e8deb47a3fc3507bce6f03, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5130071514312623454, guid: 0e7c892686e8deb47a3fc3507bce6f03, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -7304,7 +7308,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5130071514330574596, guid: 0e7c892686e8deb47a3fc3507bce6f03, type: 3}
       propertyPath: m_SortingOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e7c892686e8deb47a3fc3507bce6f03, type: 3}
@@ -136909,7 +136913,6 @@ Transform:
   - {fileID: 1626977072}
   - {fileID: 610579412}
   - {fileID: 1883585662}
-  - {fileID: 392286031}
   - {fileID: 1173370160}
   - {fileID: 1867998293}
   - {fileID: 1091885826}
@@ -136934,6 +136937,7 @@ Transform:
   - {fileID: 717144024}
   - {fileID: 1993427414}
   - {fileID: 1973521689}
+  - {fileID: 392286031}
   - {fileID: 22170008}
   - {fileID: 53207818}
   - {fileID: 1748855259}
@@ -136948,22 +136952,22 @@ Transform:
   - {fileID: 509423345}
   - {fileID: 381227180}
   - {fileID: 1281739598}
-  - {fileID: 1173776741}
   - {fileID: 2121191491}
   - {fileID: 1722254397}
   - {fileID: 1373313082}
+  - {fileID: 1173776741}
   - {fileID: 2030585213}
   - {fileID: 1566093610}
   - {fileID: 325354990}
   - {fileID: 619811160}
-  - {fileID: 1542452080}
   - {fileID: 1104274535}
   - {fileID: 112599701}
   - {fileID: 1684234320}
+  - {fileID: 1542452080}
+  - {fileID: 2046589707}
   - {fileID: 1260507164}
   - {fileID: 197102884}
   - {fileID: 1847686114}
-  - {fileID: 2046589707}
   - {fileID: 336558460}
   - {fileID: 627829210}
   - {fileID: 1501324740}
