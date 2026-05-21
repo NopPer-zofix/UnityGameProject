@@ -125,13 +125,13 @@ public class PlayerShooting : MonoBehaviour
         switch (currentWeapon)
         {
             case WeaponType.Pistol:
-                ammoUI.UpdateAmmo(currentPistolAmmo, pistolMaxAmmo, "Pistol");
+                ammoUI.UpdateAmmo(currentPistolAmmo);
                 break;
             case WeaponType.Shotgun:
-                ammoUI.UpdateAmmo(currentShotgunAmmo, shotgunMaxAmmo, "Shotgun");
+                ammoUI.UpdateAmmo(currentShotgunAmmo);
                 break;
             case WeaponType.Rifle:
-                ammoUI.UpdateAmmo(currentRifleAmmo, rifleMaxAmmo, "Rifle");
+                ammoUI.UpdateAmmo(currentRifleAmmo);
                 break;
         }
     }

@@ -4,11 +4,11 @@ using TMPro;
 public class AmmoUI : MonoBehaviour
 {
     [Header("UI")]
-    public TextMeshProUGUI ammoText; // e.g. "12 / 30"
+    public TextMeshProUGUI ammoText;
 
-    public void UpdateAmmo(int current, int max, string weapon = "")
+    public void UpdateAmmo(int current)
     {
         if (ammoText != null)
-            ammoText.text = $"{current} / {max}";
+            ammoText.text = $"{current}";
     }
 }
