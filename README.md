@@ -17,3 +17,22 @@ Here is gonna be a list of requirements, following which you will be able to eas
 `git lfs pull`
 
 4. Open Unity Hub -> Click `Add` > `Add project from disk` -> Select root folder of the repository
+
+# Game
+## Controlls
+In the game player has movement binds on WASD, Shooting on LMB, Pickup for weapons and keys on F, Pump for a shotgun on F.
+
+## Game Story
+Our game has it's story held in a world damaged by a zombie virus, our protagonist is a one of a few survived humans in this tragic world. Gameplay mainly rolls around player scouting through streets while being attacked by zombies and he has no choice other than fightig for life.
+His final goal is to defeath the Boss, therefore saving the world.
+
+# Structure of the project
+
+## Our project has distinct diversion of the Assets folders:
+
+1. Folder for every single sombie with it's own controller and animations are under the `Assets/animations_nameofmodel`
+2. Folder for the Player and player's weapons and bullets for them
+3. Folder for the Canvas and other UI objects and in `Assets/UI` folder, while the UI which is part of scenes is under the `Prefab/CanvasUI`
+4. Scripts are strictly only under the Scripts folder
+5. Audio files for the zombies and player interactions are under in the `Assets/Audio`
+6. Tiles are under the Tilemaps folder in Assets
