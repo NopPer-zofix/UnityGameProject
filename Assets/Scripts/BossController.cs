@@ -51,7 +51,7 @@ public class BossController : MonoBehaviour
     public float deathAnimDuration = 1.5f;
 
     [Header("Audio Settings")]
-    [SerializeField] private AudioClip spawnWaveSound; // Drag your boss summon/roar clip here
+    [SerializeField] private AudioClip spawnWaveSound; 
     [SerializeField] [Range(0f, 1f)] private float spawnWaveVolume = 0.9f;
 
     // ── private ──────────────────────────────────────────────────────────────
@@ -59,6 +59,7 @@ public class BossController : MonoBehaviour
     private int  currentPhase = 0;
     private bool isDead       = false;
     private bool inTransition = false;
+    private bool hasAwakened  = false; // Flag to prevent multiple activations
 
     private List<GameObject> activeEnemies = new List<GameObject>();
     private Coroutine waveLoopCoroutine;
@@ -67,6 +68,17 @@ public class BossController : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        // The boss sits completely idle now when the scene boots up!
+    }
+
+    // This method is called from your trigger collider zone script when the player crosses it
+    public void ActivateBoss()
+    {
+        if (hasAwakened) return; // Prevent double trigger bugs
+        hasAwakened = true;
+
+        Debug.Log("[Boss] Awakening sequence initiated!");
+        
         StartCoroutine(MoveTo(phase1Position, () => {
             currentPhase = 1;
             waveLoopCoroutine = StartCoroutine(WaveLoop());
@@ -76,7 +88,7 @@ public class BossController : MonoBehaviour
     // ─────────────────────────────────────────────────────────────────────────
     public void OnEnemyKilled(GameObject enemy, int damageAmount)
     {
-        if (isDead || inTransition) return;
+        if (isDead || inTransition || !hasAwakened) return;
 
         activeEnemies.Remove(enemy);
         currentHealth = Mathf.Max(currentHealth - damageAmount, 0);
@@ -107,13 +119,11 @@ public class BossController : MonoBehaviour
     // ─────────────────────────────────────────────────────────────────────────
     IEnumerator SpawnWave()
     {
-        // 1. Play the spawn sound instantly as the animation starts
         if (spawnWaveSound != null)
         {
             AudioSource.PlayClipAtPoint(spawnWaveSound, transform.position, spawnWaveVolume);
         }
 
-        // Play spawn animation and wait for it to finish
         if (animator != null)
             animator.SetTrigger("spawn");
 
@@ -137,7 +147,6 @@ public class BossController : MonoBehaviour
 
         for (int i = 0; i < spawnCount; i++)
         {
-            // Spread enemies evenly in a circle
             float   angle    = i * (360f / spawnCount) * Mathf.Deg2Rad;
             Vector2 offset    = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * spawnRadius;
             Vector3 spawnPos = spawnPoint.position + new Vector3(offset.x, offset.y, 0);
@@ -194,7 +203,6 @@ public class BossController : MonoBehaviour
     {
         if (target == null) { onArrival?.Invoke(); yield break; }
 
-        // Start walking animation
         if (animator != null)
             animator.SetFloat("speed", 1f);
 
@@ -207,11 +215,9 @@ public class BossController : MonoBehaviour
 
         transform.position = target.position;
 
-        // Stop walking animation
         if (animator != null)
             animator.SetFloat("speed", 0f);
 
-        // Rescan so enemies recalculate paths around the boss new position
         if (AstarPath.active != null)
             AstarPath.active.Scan();
 

@@ -126,7 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   attackRange: 2
-  damageValue: 25
+  damageValue: 75
   attackRate: 1
   attackAnimDuration: 0.5
   repathRate: 1
