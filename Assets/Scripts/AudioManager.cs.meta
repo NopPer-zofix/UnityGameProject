@@ -3,7 +3,19 @@ guid: 95939af2e8cc0ad40aa2af6afc327ef9
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - mainMixer: {instanceID: 0}
+  - musicSource: {instanceID: 0}
+  - sfxSource: {instanceID: 0}
+  - menuMusic: {instanceID: 0}
+  - levelMusic: {instanceID: 0}
+  - gameOverMusic: {instanceID: 0}
+  - victoryMusic: {instanceID: 0}
+  - PistolSFX: {instanceID: 0}
+  - SmgSFX: {instanceID: 0}
+  - ShotgunSFX: {instanceID: 0}
+  - FootstepsSFX: {fileID: 8300000, guid: 1fecea306f7e06b40b57a6bd65d2487f, type: 3}
+  - EquipSFX: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

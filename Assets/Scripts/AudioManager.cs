@@ -1,81 +1,116 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
-// Singleton — survives scene loads, controls all music/sfx volume globally
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
+    [Header("Audio Mixer")]
+    public AudioMixer mainMixer; // drag MainMixer here
+
     [Header("Audio Sources")]
     public AudioSource musicSource;
+    public AudioSource sfxSource;
 
-    [Header("Clips")]
+    [Header("Music Clips")]
     public AudioClip menuMusic;
     public AudioClip levelMusic;
+    public AudioClip gameOverMusic;
+    public AudioClip victoryMusic;
 
-    [Range(0f, 1f)] public float normalVolume  = 1f;
-    [Range(0f, 1f)] public float dimmedVolume  = 0.25f; // volume when pause menu is open
+    [Header("SFX Clips")]
+    public AudioClip PistolSFX;
+    public AudioClip SmgSFX;
+    public AudioClip ShotgunSFX;
+    public AudioClip FootstepsSFX;
+    public AudioClip EquipSFX;
 
-    float targetVolume;
-    float lerpSpeed = 4f;
+    // Mixer exposed parameter names — must match exactly in AudioMixer
+    const string MUSIC_PARAM = "MusicVol";
+    const string SFX_PARAM = "SFXVol";
+
+    bool initialized = false;
 
     void Awake()
     {
-        // Singleton pattern — only one AudioManager exists at all times
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
-    void Start()
+    void Start() => Init();
+
+    void Init()
     {
-        normalVolume = PlayerPrefs.GetFloat("MusicVol", 1f);
-        targetVolume = normalVolume;
-        musicSource.volume = normalVolume;
+        if (initialized) return;
+        initialized = true;
+
+        // Restore saved volumes into the mixer
+        SetMusicVolume(PlayerPrefs.GetFloat("MusicVol", 1f));
+        SetSFXVolume(PlayerPrefs.GetFloat("SFXVol", 1f));
     }
 
-    void Update()
-    {
-        // Smoothly lerp toward target volume
-        if (!Mathf.Approximately(musicSource.volume, targetVolume))
-            musicSource.volume = Mathf.Lerp(musicSource.volume, targetVolume, Time.unscaledDeltaTime * lerpSpeed);
-    }
+    // ── Music ──────────────────────────────────────────────
 
-    public void PlayMenuMusic()
+    public void PlayMenuMusic() => PlayMusic(menuMusic);
+    public void PlayLevelMusic() => PlayMusic(levelMusic);
+    public void PlayGameOver() => PlayMusic(gameOverMusic);
+    public void PlayVictory() => PlayMusic(victoryMusic);
+
+    void PlayMusic(AudioClip clip)
     {
-        if (musicSource.clip == menuMusic && musicSource.isPlaying) return;
-        musicSource.clip = menuMusic;
+        if (clip == null) { Debug.LogWarning("AudioManager: clip is null!"); return; }
+        if (musicSource.clip == clip && musicSource.isPlaying) return;
+        musicSource.clip = clip;
         musicSource.loop = true;
         musicSource.Play();
-        Undim();
     }
 
-    public void PlayLevelMusic()
+    // ── Dim (pause menu) ───────────────────────────────────
+
+    public void Dim()
     {
-        if (musicSource.clip == levelMusic && musicSource.isPlaying) return;
-        musicSource.clip = levelMusic;
-        musicSource.loop = true;
-        musicSource.Play();
-        Undim();
+        // Lower music group by -12 dB when paused
+        mainMixer?.SetFloat(MUSIC_PARAM, LinearToDecibel(PlayerPrefs.GetFloat("MusicVol", 1f) * 0.25f));
     }
 
-    // Call when pause menu opens
-    public void Dim()   => targetVolume = dimmedVolume;
+    public void Undim()
+    {
+        mainMixer?.SetFloat(MUSIC_PARAM, LinearToDecibel(PlayerPrefs.GetFloat("MusicVol", 1f)));
+    }
 
-    // Call when pause menu closes
-    public void Undim() => targetVolume = normalVolume;
+    // ── SFX ────────────────────────────────────────────────
 
-    // Called by music slider in UI
+    public void PlaySFX(AudioClip clip)
+    {
+        if (clip == null) return;
+        sfxSource.PlayOneShot(clip);
+    }
+
+    public void PlayPistol() => PlaySFX(PistolSFX);
+    public void PlaySmg() => PlaySFX(SmgSFX);
+    public void PlayShotgun() => PlaySFX(ShotgunSFX);
+    public void PlayFootsteps() => PlaySFX(FootstepsSFX);
+    public void PlayEquip() => PlaySFX(EquipSFX);
+
+    // ── Volume (called by UI sliders) ──────────────────────
+
+    // slider value: 0.0 – 1.0
     public void SetMusicVolume(float v)
     {
-        normalVolume = v;
         PlayerPrefs.SetFloat("MusicVol", v);
-        targetVolume = v;
+        mainMixer?.SetFloat(MUSIC_PARAM, LinearToDecibel(v));
     }
 
-    // Called by sfx slider in UI
     public void SetSFXVolume(float v)
     {
         PlayerPrefs.SetFloat("SFXVol", v);
-        // Hook up your SFX AudioSource here if needed
+        mainMixer?.SetFloat(SFX_PARAM, LinearToDecibel(v));
+    }
+
+    // Decibel conversion: slider 0→1 maps to -80→0 dB
+    float LinearToDecibel(float linear)
+    {
+        return linear > 0.0001f ? Mathf.Log10(linear) * 20f : -80f;
     }
 }

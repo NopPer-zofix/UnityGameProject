@@ -6,7 +6,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SFX
+  m_Name: SFXVol
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: e27fa1d539c0e3f4bb9b0e4b185f09e0
   m_Children: []
@@ -19,6 +19,20 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!244 &-2850593487810474576
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 847ff511fba360148891f0caa39d7eaf
+  m_EffectName: Attenuation
+  m_MixLevel: 744f0ab2c4cfcc942a7ba7c8997a6ab2
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
@@ -34,11 +48,16 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: 79e252de803b92949a5ceab57350ab1f
+    name: MusicVol
+  - guid: b80f8f1ec319ae1479668cec58750d55
+    name: SFXVol
   m_AudioMixerGroupViews:
   - guids:
     - 418372ebb9af3044c847a14b7e78c580
     - e27fa1d539c0e3f4bb9b0e4b185f09e0
+    - 879a10b38f658774eb8ad4c4ea48baa8
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -53,6 +72,7 @@ AudioMixerGroupController:
   m_GroupID: 418372ebb9af3044c847a14b7e78c580
   m_Children:
   - {fileID: -4902967893044718605}
+  - {fileID: 1402811634509040411}
   m_Volume: be4213493a1daf74b99da28670aa3b68
   m_Pitch: 4e8caee0bd91f8f4d864243ea138a75b
   m_Send: 00000000000000000000000000000000
@@ -87,6 +107,25 @@ AudioMixerSnapshotController:
   m_SnapshotID: 74840de6c3ff0bb47a7848dc53ff2c31
   m_FloatValues: {}
   m_TransitionOverrides: {}
+--- !u!243 &1402811634509040411
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MusicVol
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 879a10b38f658774eb8ad4c4ea48baa8
+  m_Children: []
+  m_Volume: 79e252de803b92949a5ceab57350ab1f
+  m_Pitch: ceb521803b384df469c325a898d13a96
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -2850593487810474576}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!244 &6251118262031475539
 AudioMixerEffectController:
   m_ObjectHideFlags: 3

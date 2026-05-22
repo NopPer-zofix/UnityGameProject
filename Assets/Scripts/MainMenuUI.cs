@@ -14,7 +14,6 @@ public class MainMenuUI : MonoBehaviour
     public Button playBtn;
     public Button settingsBtn;
     public Button quitBtn;
-    public TextMeshProUGUI bestScoreTxt;
 
     [Header("Settings")]
     public Slider musicSlider;
@@ -41,10 +40,6 @@ public class MainMenuUI : MonoBehaviour
         sfxSlider.value = savedSFX;
         musicSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetMusicVolume(v));
         sfxSlider.onValueChanged.AddListener(v => AudioManager.Instance?.SetSFXVolume(v));
-
-        // Display best score
-        int best = PlayerPrefs.GetInt("BestScore", 0);
-        bestScoreTxt.text = best > 0 ? $"Best Score: {best:N0}" : "Best Score: ---";
 
         // Start menu music
         AudioManager.Instance?.PlayMenuMusic();

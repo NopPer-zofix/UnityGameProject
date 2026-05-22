@@ -15,7 +15,6 @@ public class DialogueManager : MonoBehaviour
 
     [Header("UI Fields")]
     [SerializeField] private TextMeshProUGUI textDisplay;
-    [SerializeField] private Image portraitDisplay; 
     
     [Header("Dialogue Content")]
     public DialogueLine[] dialogueLines; 
@@ -50,15 +49,7 @@ public class DialogueManager : MonoBehaviour
             DialogueLine currentLine = dialogueLines[currentLineIndex];
             textDisplay.text = currentLine.text;
 
-            if (currentLine.characterSprite != null)
-            {
-                portraitDisplay.gameObject.SetActive(true);
-                portraitDisplay.sprite = currentLine.characterSprite;
-            }
-            else
-            {
-                portraitDisplay.gameObject.SetActive(false);
-            }
+            
         }
     }
 

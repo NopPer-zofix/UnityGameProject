@@ -4,34 +4,35 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    [Header("Pause Panel")]
+    [Header("Panels")]
     public GameObject pausePanel;
+    public GameObject settingsPanel;
 
-    [Header("Buttons")]
+    [Header("Pause Buttons")]
     public Button continueBtn;
     public Button settingsBtn;
+    public Button restartBtn;
     public Button quitLevelBtn;
 
-    [Header("Settings Sub-Panel (optional)")]
-    public GameObject settingsPanel;
+    [Header("Settings")]
     public Button settingsBackBtn;
     public Slider musicSlider;
     public Slider sfxSlider;
 
-    bool isPaused = false;
+    public static bool IsPaused { get; private set; } = false;
 
     void Start()
     {
+        IsPaused = false;
         pausePanel.SetActive(false);
-        if (settingsPanel) settingsPanel.SetActive(false);
+        settingsPanel?.SetActive(false);
 
         continueBtn.onClick.AddListener(Resume);
         settingsBtn.onClick.AddListener(OpenSettings);
+        restartBtn.onClick.AddListener(Restart);
         quitLevelBtn.onClick.AddListener(QuitLevel);
+        settingsBackBtn?.onClick.AddListener(CloseSettings);
 
-        if (settingsBackBtn) settingsBackBtn.onClick.AddListener(CloseSettings);
-
-        // Hook sliders if settings panel exists in pause menu
         if (musicSlider)
         {
             musicSlider.value = PlayerPrefs.GetFloat("MusicVol", 1f);
@@ -48,43 +49,50 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused) Resume();
-            else Pause();
+            if (IsPaused) Resume(); else Pause();
         }
     }
 
-    void Pause()
+    public void Pause()
     {
-        isPaused = true;
+        IsPaused = true;
         pausePanel.SetActive(true);
         Time.timeScale = 0f;
-        AudioManager.Instance?.Dim(); // quietly duck the music
+        AudioManager.Instance?.Dim();
     }
 
-    void Resume()
+    public void Resume()
     {
-        isPaused = false;
+        IsPaused = false;
         pausePanel.SetActive(false);
-        if (settingsPanel) settingsPanel.SetActive(false);
+        settingsPanel?.SetActive(false);
         Time.timeScale = 1f;
         AudioManager.Instance?.Undim();
     }
 
     void OpenSettings()
     {
-        if (settingsPanel) settingsPanel.SetActive(true);
         pausePanel.SetActive(false);
+        settingsPanel?.SetActive(true);
     }
 
     void CloseSettings()
     {
-        if (settingsPanel) settingsPanel.SetActive(false);
+        settingsPanel?.SetActive(false);
         pausePanel.SetActive(true);
+    }
+
+    void Restart()
+    {
+        IsPaused = false;
+        Time.timeScale = 1f;
+        AudioManager.Instance?.PlayLevelMusic();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void QuitLevel()
     {
-        // Restore time and music before leaving
+        IsPaused = false;
         Time.timeScale = 1f;
         AudioManager.Instance?.PlayMenuMusic();
         SceneManager.LoadScene("menu");

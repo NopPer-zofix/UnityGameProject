@@ -7,6 +7,9 @@ public class PlayerShooting : MonoBehaviour
     [Header("Current Weapon")]
     public WeaponType currentWeapon = WeaponType.Pistol;
 
+    [Header("UI")]
+    public AmmoUI ammoUI;
+
     [Header("References")]
     public GameObject PistolBulletPrefab;
     public GameObject ShotgunBulletPrefab;
@@ -73,6 +76,8 @@ public class PlayerShooting : MonoBehaviour
 
     void Update()
     {
+        if (PauseMenu.IsPaused) return;
+
         if (!CanShoot) return;
         
         if (gunTransform != null)
@@ -112,7 +117,26 @@ public class PlayerShooting : MonoBehaviour
         Debug.DrawLine(gunTransform.position, mousePos, Color.red);
     }
 
-    // --- UPDATED: Handles swapping models seamlessly and resetting counters ---
+    // --- Centralized UI update: reads current weapon state and pushes it to HUD ---
+    void RefreshAmmoUI()
+    {
+        if (ammoUI == null) return;
+
+        switch (currentWeapon)
+        {
+            case WeaponType.Pistol:
+                ammoUI.UpdateAmmo(currentPistolAmmo);
+                break;
+            case WeaponType.Shotgun:
+                ammoUI.UpdateAmmo(currentShotgunAmmo);
+                break;
+            case WeaponType.Rifle:
+                ammoUI.UpdateAmmo(currentRifleAmmo);
+                break;
+        }
+    }
+
+        // --- UPDATED: Handles swapping models seamlessly and resetting counters ---
     public void EquipWeapon(WeaponType newWeapon)
     {
         currentWeapon = newWeapon;
@@ -143,6 +167,7 @@ public class PlayerShooting : MonoBehaviour
         }
         
         Debug.Log($"Equipped: {newWeapon}. Ammo Counter Refreshed!");
+        RefreshAmmoUI(); // Sync HUD immediately on weapon switch
     }
 
     void Shoot()
@@ -179,7 +204,8 @@ public class PlayerShooting : MonoBehaviour
                 if (pistolAudioSource != null && pistolAudioSource.clip != null) pistolAudioSource.PlayOneShot(pistolAudioSource.clip);
                 
                 currentPistolAmmo--; 
-                nextPistolFireTime = Time.time + 1f;
+                nextPistolFireTime = Time.time + 0.45f;
+                RefreshAmmoUI();
                 break;
 
             case WeaponType.Shotgun:
@@ -188,6 +214,7 @@ public class PlayerShooting : MonoBehaviour
                 
                 currentShotgunAmmo--; 
                 isShotgunReady = false; 
+                RefreshAmmoUI();
                 break;
         }
 
@@ -217,6 +244,7 @@ public class PlayerShooting : MonoBehaviour
         if (rifleAudioSource != null && rifleAudioSource.clip != null) rifleAudioSource.PlayOneShot(rifleAudioSource.clip);
         SpawnBullet(activeFirePoint.rotation, damageToSet, Vector3.zero);
         currentRifleAmmo--; 
+        RefreshAmmoUI();
 
         yield return new WaitForSeconds(0.06f);
 
@@ -227,6 +255,7 @@ public class PlayerShooting : MonoBehaviour
             if (rifleAudioSource != null && rifleAudioSource.clip != null) rifleAudioSource.PlayOneShot(rifleAudioSource.clip);
             SpawnBullet(activeFirePoint.rotation, damageToSet, Vector3.zero);
             currentRifleAmmo--; 
+            RefreshAmmoUI();
         }
     }
 

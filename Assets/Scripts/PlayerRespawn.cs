@@ -8,14 +8,15 @@ public class PlayerRespawn : MonoBehaviour
     [Header("Health System")]
     public float maxHealth = 100f;
     public float currentHealth;
-    
+    public HeartsUI heartsUI;       // drag HeartsUI object here
+
     [Header("Visual Effects (No Material Needed)")]
     public float flashDuration = 0.1f;   
     public int flashCount = 3;           
 
     [Header("Death References")]
     [SerializeField] private Animator animator;
-    public GameObject deathScreen;
+    public GameOverScreen deathScreen;
     [SerializeField] private float deathAnimationDelay = 1.5f; 
 
     private bool isDead = false;
@@ -23,8 +24,15 @@ public class PlayerRespawn : MonoBehaviour
     private Collider2D col;
     private Rigidbody2D rb;
     private PlayerMovement playerMovementScript; 
-    private PlayerShooting shootingScript;       
+    private PlayerShooting shootingScript;
     private GameObject gunPivotObject; // Automatically tracks your GunPivot
+
+    void Start()
+    {
+        // Initialise hearts to full on level load
+        if (heartsUI != null)
+            heartsUI.UpdateHearts((int)currentHealth);
+    }
 
     void Awake()
     {
@@ -43,7 +51,7 @@ public class PlayerRespawn : MonoBehaviour
             gunPivotObject = pivotTransform.gameObject;
         }
         
-        if (deathScreen != null) deathScreen.SetActive(false);
+        // if (deathScreen != null) deathScreen.SetActive(false);
     }
 
     public void TakeDamage(float amount)
@@ -51,7 +59,10 @@ public class PlayerRespawn : MonoBehaviour
         if (isDead) return;
 
         currentHealth -= amount;
-        
+
+        if (heartsUI != null)
+            heartsUI.UpdateHearts((int)currentHealth);
+
         if (currentHealth <= 0)
         {
             Die();
@@ -108,6 +119,8 @@ public class PlayerRespawn : MonoBehaviour
             animator.SetTrigger("Die");
         }
 
+        AudioManager.Instance?.PlayGameOver();
+
         if (col != null) col.enabled = false;
         if (rb != null) rb.velocity = Vector2.zero;
 
@@ -120,7 +133,8 @@ public class PlayerRespawn : MonoBehaviour
 
         if (spriteRenderer != null) spriteRenderer.enabled = false;
 
-        if (deathScreen != null) deathScreen.SetActive(true);
+        if (deathScreen != null)
+            deathScreen.Show(0);
     }
 
     public void RestartLevel()

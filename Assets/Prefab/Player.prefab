@@ -307,6 +307,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  heartsUI: {fileID: 0}
   flashDuration: 0.1
   flashCount: 3
   animator: {fileID: 5130071514312623452}
@@ -337,6 +338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentWeapon: 0
+  ammoUI: {fileID: 0}
   PistolBulletPrefab: {fileID: 1948597467365859700, guid: 3463f7c94d7cb294ebfc0a704f039e82, type: 3}
   ShotgunBulletPrefab: {fileID: 799932065247685027, guid: 8ada1a5cee54bbb4ba2b5d51a245e7da, type: 3}
   RifleBulletPrefab: {fileID: 5704664165159106414, guid: bcab93e3cc51a8a4cb913f00e624726c, type: 3}
@@ -360,8 +362,8 @@ MonoBehaviour:
   isShotgunReady: 1
   shotgunPumpSound: {fileID: 8300000, guid: 9158afb6966d445db9caf1dccf7acbcc, type: 3}
   pistolMaxAmmo: 20
-  shotgunMaxAmmo: 15
-  rifleMaxAmmo: 10
+  shotgunMaxAmmo: 10
+  rifleMaxAmmo: 14
   currentPistolAmmo: 0
   currentShotgunAmmo: 0
   currentRifleAmmo: 0
