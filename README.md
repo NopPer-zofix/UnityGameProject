@@ -20,7 +20,7 @@ Here is gonna be a list of requirements, following which you will be able to eas
 
 # Game
 ## Controlls
-In the game player has movement binds on WASD, Shooting on LMB, Pickup for weapons and keys on F, Pump for a shotgun on F.
+In the game player has movement binds on WASD, Shooting on LMB, Pickup for weapons and keys on F, Pump for a shotgun on R.
 
 ## Game Story
 Our game has it's story held in a world damaged by a zombie virus, our protagonist is a one of a few survived humans in this tragic world. Gameplay mainly rolls around player scouting through streets while being attacked by zombies and he has no choice other than fightig for life.
